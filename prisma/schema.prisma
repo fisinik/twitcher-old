@@ -62,3 +62,49 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+model Birds {
+  id                       String                     @id @default(cuid())
+  createdAt                DateTime                   @default(now())
+  updatedAt                DateTime                   @updatedAt
+  name                     String
+  image                    String
+  binomialName             String
+  scientificClassification ScientificClassification[]
+  sightings                Sightings[]
+  description              String                     @db.Text
+  subspecies               String?                    @db.Text
+}
+
+model ScientificClassification {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  kingdom   String
+  phylum    String
+  class     String
+  order     String
+  family    String
+  genus     String
+  species   String
+  bird      Birds    @relation(fields: [birdId], references: [id])
+  birdId    String
+
+  @@index([birdId])
+}
+
+model Sightings {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String
+  author      String
+  description String   @db.Text
+  image       String
+  location    String
+  date        String
+  bird        Birds    @relation(fields: [birdId], references: [id])
+  birdId      String
+
+  @@index([birdId])
+}
