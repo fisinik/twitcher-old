@@ -64,19 +64,19 @@ model VerificationToken {
 }
 
 model Birds {
-  id                       String                     @id @default(cuid())
-  createdAt                DateTime                   @default(now())
-  updatedAt                DateTime                   @updatedAt
-  name                     String
-  image                    String
-  binomialName             String
-  scientificClassification ScientificClassification[]
-  sightings                Sightings[]
-  description              String                     @db.Text
-  subspecies               String?                    @db.Text
+  id             String           @id @default(cuid())
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  name           String
+  image          String
+  binomialName   String
+  classification Classification[]
+  sightings      Sightings[]
+  description    String           @db.Text
+  subspecies     String?          @db.Text
 }
 
-model ScientificClassification {
+model Classification {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
