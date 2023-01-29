@@ -29,15 +29,15 @@ export default function Header() {
         <ul
           className={`${isMenuOpen ? styles.menuOpen : styles.menuClose} z-50 font-ubuntu w-screen fixed overflow-hidden top-[80px] right-0 bottom-0 flex flex-col items-center
             justify-center
-            xl:opacity-100 xl:flex-row xl:bg-neutral-50 xl:static xl:w-auto xl:space-x-16 xl:font-normal xl:text-2xl xl:pr-10
+            xl:opacity-100 xl:flex-row xl:bg-neutral-50 xl:static xl:w-auto xl:space-x-16 xl:font-normal xl:text-xl xl:pr-10
             `}>
-          <li className={`${styles.menuItem} hover:bg-gradient-to-l from-neutral-50 hover:text-gray-800 xl:bg-neutral-50 xl:hover:text-3xl xl:hover:text-gray-900`}>
+          <li className={`${styles.menuItem} hover:bg-gradient-to-l from-neutral-50 hover:text-gray-800 xl:bg-neutral-50 xl:hover:text-2xl xl:hover:text-gray-900`}>
             <Link href="/">Home</Link>
           </li>
-          <li className={`${styles.menuItem} hover:bg-gradient-to-l from-neutral-50 hover:text-gray-800 xl:bg-neutral-50 xl:hover:text-3xl xl:hover:text-gray-900`}>
+          <li className={`${styles.menuItem} hover:bg-gradient-to-l from-neutral-50 hover:text-gray-800 xl:bg-neutral-50 xl:hover:text-2xl xl:hover:text-gray-900`}>
             <Link href="/sightings">Sightings</Link>
           </li>
-          <li className={`${styles.menuItem} hover:bg-gradient-to-l from-neutral-50 hover:text-gray-800 xl:bg-neutral-50 xl:hover:text-3xl xl:hover:text-gray-900`}>
+          <li className={`${styles.menuItem} hover:bg-gradient-to-l from-neutral-50 hover:text-gray-800 xl:bg-neutral-50 xl:hover:text-2xl xl:hover:text-gray-900`}>
             <AuthButton />
           </li>
         </ul>
@@ -54,7 +54,7 @@ const AuthButton: React.FC = () => {
       className="cursor-pointer"
       onClick={sessionData ? () => signOut() : () => signIn()}
     >
-      {sessionData ? "Logout" : "Login"}
+      {sessionData ? "Log out" : "Log in"}
     </span>
   </>
   );

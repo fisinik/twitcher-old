@@ -3,10 +3,6 @@
   --gray-800: #1f2937;
 }
 
-.menuItem:hover {
-  text-transform: uppercase;
-}
-
 /* menu items underline effect on desktop view */
 @media (min-width: 1281px) {
   .menuItem:hover {
