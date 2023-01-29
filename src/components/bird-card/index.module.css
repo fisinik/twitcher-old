@@ -1,0 +1,121 @@
+/* wave effect */
+@keyframes wave {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.image {
+  position: absolute;
+  z-index: 1;
+  opacity: 1;
+  height: 300px;
+  width: 288px;
+  border-radius: 0 0 50px 50px;
+}
+
+.wave {
+  position: absolute;
+  height: 700px;
+  width: 650px;
+  opacity: 0.2;
+  left: 0;
+  top: 0;
+  margin-left: -70%;
+  margin-top: -130%;
+  background: radial-gradient(#14b8a6, #5eead4); /* teal-500, teal-300 */
+  border-radius: 40%;
+  animation: wave 55s infinite linear;
+}
+
+
+.wave:nth-child(2) {
+  animation-duration: 50s;
+}
+
+.wave:nth-child(3) {
+  animation-duration: 35s;
+}
+
+/* information slide */
+.inside {
+  z-index: 20;
+  background: #FFFFFF;
+  width: 140px;
+  height: 140px;
+  position: absolute;
+  top: -70px;
+  right: -70px;
+  border-radius: 0px 0px 200px 200px;
+  transition: all 0.5s, border-radius 2s, top 1s;
+  overflow: hidden;
+}
+
+.icon {
+  opacity: 1;
+  transition: opacity 2s ease-in;
+}
+
+.inside .contents {
+  padding: 5%;
+  opacity: 0;
+  transform: scale(0.5);
+  transform: translateY(-200%);
+  transition: opacity 0.2s, transform 0.8s;
+}
+
+/* clamp the description */
+.lineClamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* only hover on desktop */
+@media (min-width:1281px) {
+  .inside:hover {
+    width: 100%;
+    right: 0;
+    top: 0;
+    border-radius: 0px 0px 45px 45px;
+    height: 80%;
+    background: #2dd4bf; /* teal-400 */
+    opacity: 0.85;
+  }
+  
+  .inside:hover .contents {
+    opacity: 1;
+    transform: scale(1);
+    transform: translateY(0);
+  }
+  
+  .inside:hover .icon {
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
+  }
+}
+
+/* only click on tablet, mobile */
+@media (max-width:1280px) {
+  .openInfoMobile {
+    width: 100%;
+    right: 0;
+    top: 0;
+    border-radius: 0px 0px 45px 45px;
+    height: 80%;
+    background: #2dd4bf; /* teal-400 */
+    opacity: 0.85;
+  }
+
+  .openInfoMobile .contents {
+    opacity: 1;
+    transform: scale(1);
+    transform: translateY(0);
+  }
+
+  .openInfoMobile .icon {
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
+  }
+}
