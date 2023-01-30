@@ -102,7 +102,6 @@ model Sightings {
   description String   @db.Text
   image       String
   location    String
-  date        String
   bird        Birds    @relation(fields: [birdId], references: [id])
   birdId      String
 
