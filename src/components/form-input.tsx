@@ -4,6 +4,8 @@ export default function FormInput({
   name,
   value,
   onChange,
+  onFocus,
+  onBlur,
   error,
 }: {
   label: string;
@@ -11,13 +13,15 @@ export default function FormInput({
   name: string;
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   error?: string;
 }) {
   return (
     <div className="relative my-[5px] w-full">
       {type !== 'textarea' ? (
         <input
-          type={type} name={name} id={`floating_${name}`} value={value} onChange={onChange}
+          type={type} name={name} id={`floating_${name}`} value={value} onChange={onChange} onFocus={onFocus} onBlur={onBlur}
           className={`h-[50px] rounded-[3px] border-[1px] ${error ? 'border-red-500' : 'text-gray-800'} 
           bg-gray-100 px-2.5 pb-2.5 pt-5 w-full focus:outline-none caret-teal-400 focus:border-teal-400 peer`}
           placeholder=" "
