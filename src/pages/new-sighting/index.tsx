@@ -4,18 +4,53 @@ import Layout from "../../components/layout";
 import FormInput from "../../components/form-input";
 import Button from "../../components/button";
 import { useState } from "react";
+import { useAuth } from "../../components/hooks/useAuth";
+import axios from "axios";
+import { env } from "../../env/client.mjs";
 
 const NewSighting: NextPage = () => {
   const { data: birds } = trpc.birds.getAll.useQuery();
   const { mutate } = trpc.sightings.addNew.useMutation();
+  const { isAuthed, session } = useAuth();
 
   const handleAddSighting = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // to do: add mutation
-    // to do: add image upload
+    if (!isAuthed) { return; } // to do: redirect to login page
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const imageData = new FormData();
+    imageData.append("file", formData.get("picture"));
+    imageData.append("upload_preset", env.NEXT_PUBLIC_UPLOAD_PRESET);
+    imageData.append("cloud_name", env.NEXT_PUBLIC_CLOUD_NAME);
+
+    let url = '' as string;
+    try {
+      const resp = await axios.post(env.NEXT_PUBLIC_UPLOAD_URL, imageData);
+      url = resp.data.url;
+    } catch (error) {
+      console.log(error);
+    }
+    const bird = birds?.filter(bird => bird.name === formData.get("bird_name"));
+    const birdId = bird[0]?.id;
+
+    const newSighting = {
+      birdId: birdId,
+      name: formData.get("name")?.toString(),
+      author: session?.user?.id,
+      description: formData.get("description")?.toString(),
+      image: url,
+      location: formData.get("location")?.toString(),
+    }
+    try {
+      mutate({ ...newSighting });
+      alert("Sighting added!");
+    } catch (error) {
+      console.log(error);
+    }
+    // to do: add error handling
+    // to do: add loading state
     // to do: add validation
   };
-
   return (
     <Layout>
       <div className="w-full h-full absolute bg-cover bg-center top-[80px] bg-gradient-to-r from-teal-50 to-teal-100" />
@@ -29,7 +64,7 @@ const NewSighting: NextPage = () => {
             <div className="flex flex-col md:flex-row gap-y-[10px] md:gap-x-[20px] items-center">
               <FormInput label="Sighting title" type="text" name="name" />
               <AutocompleteBirdName items={birds?.map((bird) => bird.name)} />
-              <FormInput label="Sighting location" type="text" name="coordinates" />
+              <FormInput label="Sighting location" type="text" name="location" />
               <div className="md:flex-shrink-0 shadow-2xl cursor-pointer w-full md:w-[200px] md:ml-[30px] h-[50px] rounded-md text-teal-400 flex justify-center items-center">
                 <label className="cursor-pointer flex">
                   <input type="file" className="hidden" name="picture" />
@@ -76,7 +111,7 @@ function AutocompleteBirdName({ items }) {
 
   return (
     <div className='relative w-full'>
-      <FormInput name='name' label='Bird name' type="text" value={inputValue} onChange={handleInputChange} onBlur={() => setTimeout(() => setShowOptions(false), 100)} onFocus={handleInputChange} />
+      <FormInput name='bird_name' label='Bird name' type="text" value={inputValue} onChange={handleInputChange} onBlur={() => setTimeout(() => setShowOptions(false), 100)} onFocus={handleInputChange} />
       {showOptions && (
         <ul className='bg-gray-100 shadow-2xl absolute rounded-[3px] z-20 w-full border border-teal-400'>
           {filteredItems?.map((item, index) => (
