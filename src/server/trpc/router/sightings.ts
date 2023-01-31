@@ -5,6 +5,19 @@ export const sightingsRouter = router({
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.sightings.findMany();
   }),
+  getOne: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(({ ctx, input }) => {
+      return ctx.prisma.sightings.findUnique({
+        where: {
+          id: input.id,
+        },
+      });
+    }),
   addNew: publicProcedure
     .input(
       z.object({
@@ -12,7 +25,6 @@ export const sightingsRouter = router({
         name: z.string(),
         author: z.string(),
         description: z.string(),
-        date: z.string(),
         image: z.string(),
         location: z.string(),
       })
@@ -24,7 +36,6 @@ export const sightingsRouter = router({
           name: input.name,
           author: input.author,
           description: input.description,
-          date: input.date,
           image: input.image,
           location: input.location,
         },
