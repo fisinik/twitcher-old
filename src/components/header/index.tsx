@@ -13,10 +13,12 @@ export default function Header() {
   }, [isMenuOpen]);
 
   return (
-    <header className={`${isMenuOpen ? 'bg-gradient-to-l from-teal-500 to-neutral-50 shadow' : 'bg-neutral-50'} fixed w-full z-50 h-[80px] shadow-2xl flex items-center justify-between px-8 xl:from-neutral-50`}>
+    <header className={`${isMenuOpen ? 'bg-gradient-to-l from-teal-500 to-neutral-50 shadow' : 'bg-neutral-50'} fixed w-full z-50 h-[80px] shadow-2xl flex items-center justify-between pr-4 md:px-8 xl:from-neutral-50`}>
       <div className="flex items-center">
         <Logo />
-        <h1 className="text-4xl font-bold text-gray-800 font-ubuntu"> Tw <span className={`-mx-2 ${isMenuOpen ? 'text-gray-800 opacity-100' : 'text-teal-400 opacity-80'} xl:text-teal-400 xl:opacity-80`}> itch </span> er </h1>
+        <Link className="text-4xl font-bold text-gray-800 font-ubuntu" href="/" onClick={() => isMenuOpen && setIsMenuOpen(false)}>
+          Tw <span className={`-mx-2 ${isMenuOpen ? 'text-gray-800 opacity-100' : 'text-teal-400 opacity-80'} xl:text-teal-400 xl:opacity-80`}> itch </span> er
+        </Link>
       </div>
       <nav className="">
         <label className={`${styles.hamburger} mt-1`}>
@@ -31,12 +33,8 @@ export default function Header() {
             justify-center
             xl:opacity-100 xl:flex-row xl:bg-neutral-50 xl:static xl:w-auto xl:space-x-16 xl:font-normal xl:text-xl xl:pr-10
             `}>
-          <li className={`${styles.menuItem} hover:bg-gradient-to-l from-neutral-50 hover:text-gray-800 xl:bg-neutral-50 xl:hover:text-2xl xl:hover:text-gray-900`}>
-            <Link href="/">Home</Link>
-          </li>
-          <li className={`${styles.menuItem} hover:bg-gradient-to-l from-neutral-50 hover:text-gray-800 xl:bg-neutral-50 xl:hover:text-2xl xl:hover:text-gray-900`}>
-            <Link href="/sightings">Sightings</Link>
-          </li>
+          <Link className={`${styles.menuItem} hover:bg-gradient-to-l from-neutral-50 hover:text-gray-800 xl:bg-neutral-50 xl:hover:text-2xl xl:hover:text-gray-900`} href="/" onClick={() => isMenuOpen && setIsMenuOpen(false)}>Home</Link>
+          <Link className={`${styles.menuItem} hover:bg-gradient-to-l from-neutral-50 hover:text-gray-800 xl:bg-neutral-50 xl:hover:text-2xl xl:hover:text-gray-900`} href="/sightings" onClick={() => isMenuOpen && setIsMenuOpen(false)}>Sightings</Link>
           <li className={`${styles.menuItem} hover:bg-gradient-to-l from-neutral-50 hover:text-gray-800 xl:bg-neutral-50 xl:hover:text-2xl xl:hover:text-gray-900`}>
             <AuthButton />
           </li>
