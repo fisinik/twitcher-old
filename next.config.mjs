@@ -26,4 +26,14 @@ export default defineNextConfig({
     locales: ["en"],
     defaultLocale: "en",
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        port: '',
+        pathname: '/dmuejctf5/image/upload/v1675211243/**', 
+      }
+    ]
+  },
 });

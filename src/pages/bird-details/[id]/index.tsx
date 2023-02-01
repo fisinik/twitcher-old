@@ -5,6 +5,7 @@ import { trpc } from "../../../utils/trpc";
 import Button from "../../../components/button";
 import Link from "next/link";
 import { SightingCard } from "../../../components/sighting-card";
+import Image from "next/image";
 
 const BirdDetails: NextPage = () => {
   const router = useRouter();
@@ -12,13 +13,21 @@ const BirdDetails: NextPage = () => {
   const { data: bird } = trpc.bird.getOne.useQuery({ id: id as string });
   const { data: sightings } = trpc.sighting.getBirdSightings.useQuery({ id: id as string });
 
+  if (!bird || !sightings) {
+    return (
+      <Layout>
+        <div className='h-full w-full flex items-center justify-center'><h1 >Loading...</h1></div>
+      </Layout>
+    )
+  }
+
   return (
     <Layout>
       <div className="flex flex-col w-full py-[80px]">
         <div className="hidden md:block absolute w-full h-[350px]" style={{ background: `linear-gradient(180deg, rgba(0, 0, 0, 0.0001) 0%, rgba(0, 0, 0, 0.4) 100%), url('/bird-details-bg.png')`, backgroundRepeat: `repeat` }} />
 
         <div className="relative flex flex-col md:flex-row md:items-center h-[350px] w-full md:top-[50px]">
-          <div className="absolute h-full w-full md:hidden" style={{ background: `linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(0, 0, 0, 0.7) 100%), url('${bird?.image}')`, backgroundRepeat: `no-repeat`, backgroundBlendMode: `multiply`, backgroundPosition: `center`, backgroundSize: `cover` }} />
+          <Image src={bird.image} width={500} height={500} style={{ background: `linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(0, 0, 0, 0.7) 100%)`, backgroundBlendMode: 'multiply' }} className="absolute h-full w-full md:hidden bg-cover bg-center" alt="image of the bird" />
           <div className="hidden md:block h-full w-full md:absolute md:top-0 md:left-[20px] md:w-[280px] bg-cover bg-center rounded-[3px]" style={{ backgroundImage: `url('${bird?.image}')` }} />
           <div className="z-10 pl-[40px] pt-[175px] md:absolute md:pl-0 left-[350px] bottom-[100px]">
             <div className="flex gap-x-[10px] pb-[20px]">
