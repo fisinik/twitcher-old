@@ -22,15 +22,15 @@ export default function FormInput({
       {type !== 'textarea' ? (
         <input
           type={type} name={name} id={`floating_${name}`} value={value} onChange={onChange} onFocus={onFocus} onBlur={onBlur}
-          className={`h-[50px] rounded-[3px] border-[1px] ${error ? 'border-red-500' : 'text-gray-800'} 
-          bg-gray-100 px-2.5 pb-2.5 pt-5 w-full focus:outline-none caret-teal-400 focus:border-teal-400 peer`}
+          className={`h-[50px] rounded-[3px] border-[1px] ${error ? 'border-red-500' : 'text-gray-800'} shadow-lg
+          bg-gradient-to-r from-teal-50 hover:to-teal-100 hover:shadow-xl px-2.5 pb-2.5 pt-5 w-full focus:outline-none caret-teal-400 focus:border-teal-400 peer`}
           placeholder=" "
         />
       ) : (
         <textarea
           name={name} id={`floating_${name}`}
-          className={`h-[150px] rounded-[3px] border ${error ? 'border-red-500' : 'text-gray-800'}  bg-gray-100 px-2.5 pb-2.5 pt-5 w-full
-            focus:outline-none caret-teal-400 focus:border-teal-400 peer`}
+          className={`h-[150px] rounded-[3px] border ${error ? 'border-red-500' : 'text-gray-800'} bg-gradient-to-r from-teal-50 hover:to-teal-100 to-teal-50 px-2.5 pb-2.5 pt-5 w-full
+            focus:outline-none caret-teal-400 focus:border-teal-400 peer shadow-lg hover:shadow-xl`}
           placeholder=" "
           style={{ resize: `none` }}
         />
