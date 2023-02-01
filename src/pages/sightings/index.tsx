@@ -12,13 +12,13 @@ const Sightings: NextPage = () => {
   return (
     <Layout>
       <main className="z-auto container mx-auto flex min-h-screen flex-col items-center justify-center px-4 pt-[80px]">
-        <section>
+        <section className="pt-6 lg:pt-0">
           <Link href="/new-sighting">
             <Button className="px-6">+ Add New Sighting</Button>
           </Link>
         </section>
 
-        <section className="text-gray-600 ">
+        <section className="text-gray-600">
           <div className="container px-5 py-12 mx-auto">
             <div className="flex flex-wrap -m-4 justify-center">
               {sightings ? (

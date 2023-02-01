@@ -32,7 +32,7 @@ export default defineNextConfig({
         protocol: "https",
         hostname: "res.cloudinary.com",
         port: '',
-        pathname: '/dmuejctf5/image/upload/v1675211243/**', 
+        pathname: '/dmuejctf5/**', 
       }
     ]
   },
