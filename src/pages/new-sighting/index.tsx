@@ -9,8 +9,8 @@ import axios from "axios";
 import { env } from "../../env/client.mjs";
 
 const NewSighting: NextPage = () => {
-  const { data: birds } = trpc.birds.getAll.useQuery();
-  const { mutate } = trpc.sightings.addNew.useMutation();
+  const { data: birds } = trpc.bird.getAll.useQuery();
+  const { mutate } = trpc.sighting.addNew.useMutation();
   const { isAuthed, session } = useAuth();
 
   const handleAddSighting = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -22,7 +22,7 @@ const NewSighting: NextPage = () => {
     imageData.append("file", formData.get("picture"));
     imageData.append("upload_preset", env.NEXT_PUBLIC_UPLOAD_PRESET);
     imageData.append("cloud_name", env.NEXT_PUBLIC_CLOUD_NAME);
-
+    imageData.append("folder", "sightings");
     let url = '' as string;
     try {
       const resp = await axios.post(env.NEXT_PUBLIC_UPLOAD_URL, imageData);

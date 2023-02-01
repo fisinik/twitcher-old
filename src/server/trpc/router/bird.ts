@@ -1,10 +1,10 @@
 import { router, publicProcedure } from "../trpc";
 import { z } from "zod";
 
-export const birdsRouter = router({
+export const birdRouter = router({
   getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.birds.findMany({
-      include: { sightings: true, classification: true },
+    return ctx.prisma.bird.findMany({
+      include: { sighting: true, classification: true },
     });
   }),
   getOne: publicProcedure
@@ -14,11 +14,11 @@ export const birdsRouter = router({
       })
     )
     .query(({ ctx, input }) => {
-      return ctx.prisma.birds.findUnique({
+      return ctx.prisma.bird.findUnique({
         where: {
           id: input.id,
         },
-        include: { sightings: true, classification: true },
+        include: { sighting: true, classification: true },
       });
     }),
 });

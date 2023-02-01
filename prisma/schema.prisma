@@ -63,7 +63,7 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Birds {
+model Bird {
   id             String           @id @default(cuid())
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
@@ -71,7 +71,7 @@ model Birds {
   image          String
   binomialName   String
   classification Classification[]
-  sightings      Sightings[]
+  sighting       Sighting[]
   description    String           @db.Text
   subspecies     String?          @db.Text
 }
@@ -87,13 +87,13 @@ model Classification {
   family    String
   genus     String
   species   String
-  bird      Birds    @relation(fields: [birdId], references: [id])
+  bird      Bird     @relation(fields: [birdId], references: [id])
   birdId    String
 
   @@index([birdId])
 }
 
-model Sightings {
+model Sighting {
   id          String   @id @default(cuid())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -102,7 +102,7 @@ model Sightings {
   description String   @db.Text
   image       String
   location    String
-  bird        Birds    @relation(fields: [birdId], references: [id])
+  bird        Bird     @relation(fields: [birdId], references: [id])
   birdId      String
 
   @@index([birdId])

@@ -1,12 +1,12 @@
 // src/server/trpc/router/_app.ts
 import { router } from "../trpc";
-import { birdsRouter } from "./birds";
-import { sightingsRouter } from "./sightings";
+import { birdRouter } from "./bird";
+import { sightingRouter } from "./sighting";
 import { userRouter } from "./user";
 
 export const appRouter = router({
-  birds: birdsRouter,
-  sightings: sightingsRouter,
+  bird: birdRouter,
+  sighting: sightingRouter,
   user: userRouter,
 });
 

@@ -1,9 +1,9 @@
 import { router, publicProcedure } from "../trpc";
 import { z } from "zod";
 
-export const sightingsRouter = router({
+export const sightingRouter = router({
   getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.sightings.findMany();
+    return ctx.prisma.sighting.findMany();
   }),
   getOne: publicProcedure
     .input(
@@ -12,7 +12,7 @@ export const sightingsRouter = router({
       })
     )
     .query(({ ctx, input }) => {
-      return ctx.prisma.sightings.findUnique({
+      return ctx.prisma.sighting.findUnique({
         where: {
           id: input.id,
         },
@@ -30,7 +30,7 @@ export const sightingsRouter = router({
       })
     )
     .mutation(({ ctx, input }) => {
-      return ctx.prisma.sightings.create({
+      return ctx.prisma.sighting.create({
         data: {
           birdId: input.birdId,
           name: input.name,
@@ -38,6 +38,19 @@ export const sightingsRouter = router({
           description: input.description,
           image: input.image,
           location: input.location,
+        },
+      });
+    }),
+  getUserSightings: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(({ ctx, input }) => {
+      return ctx.prisma.sighting.findMany({
+        where: {
+          author: input.id,
         },
       });
     }),
