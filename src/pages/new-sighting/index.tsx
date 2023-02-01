@@ -125,7 +125,7 @@ const NewSighting: NextPage = () => {
                 </label>
               </div>
             </div>
-            <FormInput label="Write a description..." type="textarea" name="description" onChange={handleChange} value={values.description} error={errors.description} />
+            <FormInput label="Write a description..." type="textarea" name="description" />
             <Button className="md:w-[200px] md:self-end md:shadow-xl"> Create New Sighting </Button>
           </form>
         </div>
