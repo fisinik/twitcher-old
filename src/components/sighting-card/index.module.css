@@ -8,13 +8,13 @@
   position: absolute;
   z-index: 1;
   opacity: 1;
-  height: 230px;
+  height: 250px;
   width: 288px;
 }
 
 .wave {
   position: absolute;
-  height: 700px;
+  height: 650px;
   width: 650px;
   opacity: 0.2;
   left: 0;
@@ -78,9 +78,9 @@
     right: 0;
     top: 0;
     border-radius: 5px;
-    height: 80%;
+    height: 82%;
     background: #2dd4bf; /* teal-400 */
-    opacity: 0.85;
+    opacity: 0.94;
   }
   
   .inside:hover .contents {
