@@ -41,7 +41,7 @@ const BirdDetails: NextPage = () => {
             {bird?.description}
           </div>
         </div>
-        <div className="flex items-center justify-center py-6"><h1 className="text-4xl text-gray-600 font-light"> {bird.name} sightings </h1> </div>
+        <div className="flex items-center justify-center py-6"><h1 className="text-4xl text-gray-600 font-light"> {bird?.name} sightings </h1> </div>
         <div className="flex flex-col gap-y-[20px] px-[16px] py-[20px] md:py-[40px] md:grid md:grid-cols-3 md:gap-x-[20px] md:self-center  xl:grid-cols-4">
           {
             sightings?.map((sighting) => (
