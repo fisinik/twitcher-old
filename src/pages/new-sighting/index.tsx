@@ -7,6 +7,37 @@ import React, { useState } from "react";
 import { useAuth } from "../../components/hooks/useAuth";
 import axios from "axios";
 import { env } from "../../env/client.mjs";
+import { useFormValidation } from "../../components/hooks/useFormValidation";
+
+const initialFormValues = {
+  name: '',
+  location: '',
+  description: '',
+  image: '',
+}
+
+const fields = {
+  name: (value: string) => {
+    if (!value) {
+      return 'Sighting title is required';
+    }
+  },
+  location: (value: string) => {
+    if (!value) {
+      return 'Sighting location is required';
+    }
+  },
+  description: (value: string) => {
+    if (!value) {
+      return 'Sighting description is required';
+    }
+  },
+  image: (value: string) => {
+    if (!value) {
+      return 'Sighting image is required';
+    }
+  },
+} as { [field: string]: (value: string) => string | undefined };
 
 const NewSighting: NextPage = () => {
   const { data: birds } = trpc.bird.getAll.useQuery();
@@ -15,11 +46,13 @@ const NewSighting: NextPage = () => {
 
   const handleAddSighting = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!isAuthed) { return; } // to do: redirect to login page
+    if (!isAuthed || !session || !session.user) { return; } // to do: redirect to login page
     const form = event.currentTarget;
     const formData = new FormData(form);
+    const image = formData.get("bird_name")?.toString();
+    if (!image) { return; } // to do: add error handling
     const imageData = new FormData();
-    imageData.append("file", formData.get("picture"));
+    imageData.append("file", image);
     imageData.append("upload_preset", env.NEXT_PUBLIC_UPLOAD_PRESET);
     imageData.append("cloud_name", env.NEXT_PUBLIC_CLOUD_NAME);
     imageData.append("folder", "sightings");
@@ -30,16 +63,20 @@ const NewSighting: NextPage = () => {
     } catch (error) {
       console.log(error);
     }
-    const bird = birds?.filter(bird => bird.name === formData.get("bird_name"));
-    const birdId = bird[0]?.id;
 
+    const birdName = formData.get("bird_name") as string;
+    const bird = birds?.filter(bird => bird.name === birdName);
+    if (!bird || bird.length === 0 || bird[0] === undefined) { return; } // to do: add error handling
+    const name = formData.get("name") as string;
+    const location = formData.get("location") as string;
+    const description = formData.get("description") as string;
     const newSighting = {
-      birdId: birdId,
-      name: formData.get("name")?.toString(),
-      author: session?.user?.id,
-      description: formData.get("description")?.toString(),
+      birdId: bird[0].id,
+      name: name,
+      author: session.user.id,
+      description: description,
       image: url,
-      location: formData.get("location")?.toString(),
+      location: location,
     }
     try {
       mutate({ ...newSighting });
@@ -51,23 +88,29 @@ const NewSighting: NextPage = () => {
     // to do: add loading state
     // to do: add validation
   };
+  const {
+    handleChange,
+    handleSubmit,
+    values,
+    errors,
+  } = useFormValidation(initialFormValues, fields, handleAddSighting);
   return (
     <Layout>
       <div className="w-full h-full absolute bg-cover bg-center top-[80px] bg-gradient-to-r from-teal-50 to-teal-100" />
       <div className="flex flex-col mx-[16px] md:mx-[20px] xl:mx-[120px]">
         <div className="z-10 w-full flex flex-col md:flex-row md:gap-x-[50px] relative top-[160px] shadow-2xl bg-white p-[20px] rounded-sm">
-          <form onSubmit={handleAddSighting}
+          <form onSubmit={handleSubmit}
             className="flex flex-col gap-y-[10px] md:w-full md:mb-[70px]">
             <div className="flex flex-col gap-y-[10px] items-center p-[30px]">
               <h1 className="text-[24px] md:text-[40px] leading-[40px] font-light text-granny-smith"> Add New Sighting </h1>
             </div>
             <div className="flex flex-col md:flex-row gap-y-[10px] md:gap-x-[20px] items-center">
-              <FormInput label="Sighting title" type="text" name="name" />
-              <AutocompleteBirdName items={birds?.map((bird) => bird.name)} />
-              <FormInput label="Sighting location" type="text" name="location" />
+              <FormInput label="Sighting title" type="text" name="name" onChange={handleChange} value={values.name} error={errors.name} />
+              <AutocompleteBirdName items={birds ? birds?.map((bird) => bird.name) : []} />
+              <FormInput label="Sighting location" type="text" name="location" onChange={handleChange} value={values.location} error={errors.location} />
               <div className="md:flex-shrink-0 shadow-2xl cursor-pointer w-full md:w-[200px] md:ml-[30px] h-[50px] rounded-md text-teal-400 flex justify-center items-center">
                 <label className="cursor-pointer flex">
-                  <input type="file" className="hidden" name="picture" />
+                  <input type="file" className="hidden" name="image" />
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_0_457" style={{ maskType: `alpha` }} maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
                       <path fillRule="evenodd" clipRule="evenodd" d="M24 24H0V0H24V24Z" fill="white" />
@@ -80,7 +123,7 @@ const NewSighting: NextPage = () => {
                 </label>
               </div>
             </div>
-            <FormInput label="Write a description..." type="textarea" name="description" />
+            <FormInput label="Write a description..." type="textarea" name="description" onChange={handleChange} value={values.description} error={errors.description} />
             <Button className="md:w-[200px] md:self-end"> Create New Sighting </Button>
           </form>
         </div>
@@ -91,7 +134,11 @@ const NewSighting: NextPage = () => {
 
 export default NewSighting;
 
-function AutocompleteBirdName({ items }: { items: string[] }) {
+function AutocompleteBirdName({
+  items
+}: {
+  items: string[],
+}) {
   const [inputValue, setInputValue] = useState('');
   const [filteredItems, setFilteredItems] = useState(items);
   const [showOptions, setShowOptions] = useState(false);

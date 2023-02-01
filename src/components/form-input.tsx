@@ -29,8 +29,8 @@ export default function FormInput({
       ) : (
         <textarea
           name={name} id={`floating_${name}`}
-          className="h-[150px] rounded-[3px] border text-gray-800 bg-gray-100 px-2.5 pb-2.5 pt-5 w-full
-            focus:outline-none caret-teal-400 focus:border-teal-400 peer"
+          className={`h-[150px] rounded-[3px] border ${error ? 'border-red-500' : 'text-gray-800'}  bg-gray-100 px-2.5 pb-2.5 pt-5 w-full
+            focus:outline-none caret-teal-400 focus:border-teal-400 peer`}
           placeholder=" "
           style={{ resize: `none` }}
         />
