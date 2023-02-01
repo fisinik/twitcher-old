@@ -3,7 +3,17 @@ import styles from './index.module.css';
 import { Info } from './infoIcon';
 import { useState } from 'react';
 
-export const SightingCard = ({ sighting }) => {
+interface SightingCardProps {
+  sighting: {
+    id: string;
+    name: string;
+    description: string;
+    image: string;
+    author: string;
+  }
+}
+
+export const SightingCard = ({ sighting }: SightingCardProps) => {
   const [isInfoCardOpen, setIsInfoCardOpen] = useState(false);
   const { data: author } = trpc.user.getSightingAuthor.useQuery({ id: sighting.author });
 

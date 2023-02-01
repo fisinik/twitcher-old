@@ -3,7 +3,7 @@ import { trpc } from "../../utils/trpc";
 import Layout from "../../components/layout";
 import FormInput from "../../components/form-input";
 import Button from "../../components/button";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useAuth } from "../../components/hooks/useAuth";
 import axios from "axios";
 import { env } from "../../env/client.mjs";
@@ -91,12 +91,12 @@ const NewSighting: NextPage = () => {
 
 export default NewSighting;
 
-function AutocompleteBirdName({ items }) {
+function AutocompleteBirdName({ items }: { items: string[] }) {
   const [inputValue, setInputValue] = useState('');
   const [filteredItems, setFilteredItems] = useState(items);
   const [showOptions, setShowOptions] = useState(false);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
     setInputValue(input);
     const filtered = items?.filter((item) => item.toLowerCase().includes(input.toLowerCase()));
@@ -104,7 +104,7 @@ function AutocompleteBirdName({ items }) {
     setShowOptions(true);
   };
 
-  const handleOptionClick = (item) => {
+  const handleOptionClick = (item: string) => {
     setInputValue(item);
     setShowOptions(false);
   };

@@ -10,7 +10,7 @@ const BirdDetails: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const { data: bird } = trpc.bird.getOne.useQuery({ id: id as string });
-  const { data: sightings } = trpc.sighting.getBirdSightings.useQuery({ id });
+  const { data: sightings } = trpc.sighting.getBirdSightings.useQuery({ id: id as string });
 
   return (
     <Layout>
