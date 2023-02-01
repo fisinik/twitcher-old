@@ -1,23 +1,23 @@
+import { trpc } from '../../utils/trpc';
 import styles from './index.module.css';
 import { Info } from './infoIcon';
 import { useState } from 'react';
 
 export const SightingCard = ({ sighting }) => {
-
   const [isInfoCardOpen, setIsInfoCardOpen] = useState(false);
+  const { data: author } = trpc.user.getSightingAuthor.useQuery({ id: sighting.author });
 
-  // console.log(sighting);
   return (
     <div className="relative bg-white shadow-2xl overflow-hidden w-72 h-96 rounded-md m-2">
-      <div className={`${styles.image} bg-cover bg-center`} style={{ backgroundImage: `url(${sighting.image})` }} />
+      <div className={`${styles.image} bg-cover bg-center`} style={{ backgroundImage: `url(${sighting?.image})` }} />
       <div className={styles.wave} />
       <div className={styles.wave} />
       <div className={styles.wave} />
       <div className="absolute left-0 right-0 top-60 z-10 flex px-3 gap-x-4 items-center">
-        <span className='h-14 w-14 rounded-full bg-center bg-cover border border-teal-500' style={{ backgroundImage: `url(https://avatars.githubusercontent.com/u/24959316?v=4)` }}></span>
+        <span className='h-14 w-14 rounded-full bg-center bg-cover border border-teal-500' style={{ backgroundImage: `url(${author?.image})` }}></span>
         <div className='flex flex-col'>
           <h2 className='font-bold text-xl text-opacity-80 text-gray-800' >{sighting.name}</h2>
-          <p className='text-opacity-80 text-gray-800'>by <span className="italic"> {sighting.author} </span></p>
+          <p className='text-opacity-80 text-gray-800'>by <span className="italic"> {author?.name} </span></p>
         </div>
       </div>
       <div className="absolute left-0 right-0 bottom-4 px-3 flex justify-between">
