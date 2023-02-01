@@ -54,4 +54,17 @@ export const sightingRouter = router({
         },
       });
     }),
+  getBirdSightings: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(({ ctx, input }) => {
+      return ctx.prisma.sighting.findMany({
+        where: {
+          birdId: input.id,
+        },
+      });
+    }),
 });
