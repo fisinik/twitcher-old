@@ -8,6 +8,7 @@ import { useAuth } from "../../components/hooks/useAuth";
 import axios from "axios";
 import { env } from "../../env/client.mjs";
 import { useFormValidation } from "../../components/hooks/useFormValidation";
+import Link from "next/link";
 
 const initialFormValues = {
   name: '',
@@ -43,6 +44,7 @@ const NewSighting: NextPage = () => {
   const { data: birds } = trpc.bird.getAll.useQuery();
   const { mutate } = trpc.sighting.addNew.useMutation();
   const { isAuthed, session } = useAuth();
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
   const handleAddSighting = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -80,7 +82,7 @@ const NewSighting: NextPage = () => {
     }
     try {
       mutate({ ...newSighting });
-      alert("Sighting added!");
+      setIsNotificationOpen(true);
     } catch (error) {
       console.log(error);
     }
@@ -128,6 +130,7 @@ const NewSighting: NextPage = () => {
           </form>
         </div>
       </div>
+      <NewSightingNotification isVisible={isNotificationOpen} onClose={() => setIsNotificationOpen(false)} />
     </Layout>
   )
 }
@@ -168,6 +171,34 @@ function AutocompleteBirdName({
           ))}
         </ul>
       )}
+    </div>
+  );
+}
+
+const NewSightingNotification = ({
+  isVisible, onClose
+}: {
+  isVisible: boolean,
+  onClose: () => void
+}) => {
+  if (!isVisible) return null;
+  const handleClose = (event: React.MouseEvent<HTMLDivElement>) => {
+    if ((event.target as HTMLDivElement)?.id === 'wrapper') { onClose(); }
+  }
+
+  return (
+    <div className="md:z-30 fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50" id="wrapper" onClick={handleClose}>
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-3 shadow-2xl">
+        <div className="flex flex-col p-4 items-center" >
+          <h1 className="text-lg"> Congratulations! </h1>
+          <h2 className="text-sm py-2 text-outer-space"> You have successfully added a new sighting! </h2>
+          <div className="flex gap-x-3 w-full">
+            <Button className="w-1/3"
+              onClick={() => window.location.reload()}> OK </Button>
+            <Button className="w-2/3 px-2"><Link href="/sightings"> Latest Sightings </Link> </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

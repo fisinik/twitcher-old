@@ -3,6 +3,7 @@ import { trpc } from "../../utils/trpc";
 import Layout from "../../components/layout";
 import { SightingCard } from "../../components/sighting-card";
 import Button from "../../components/button";
+import Link from "next/link";
 
 const Sightings: NextPage = () => {
   const { data: sightings } = trpc.sighting.getAll.useQuery();
@@ -12,7 +13,9 @@ const Sightings: NextPage = () => {
     <Layout>
       <main className="z-auto container mx-auto flex min-h-screen flex-col items-center justify-center px-4 pt-[80px]">
         <section>
-          <Button className="px-6">+ Add New Sighting</Button>
+          <Link href="/new-sighting">
+            <Button className="px-6">+ Add New Sighting</Button>
+          </Link>
         </section>
 
         <section className="text-gray-600 ">

@@ -4,6 +4,7 @@ import { trpc } from "../utils/trpc";
 import { BirdCard } from "../components/bird-card";
 import Layout from "../components/layout";
 import Button from "../components/button";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   const { data: birds } = trpc.bird.getAll.useQuery()
@@ -18,7 +19,9 @@ const Home: NextPage = () => {
       <Layout>
         <main className="z-auto container mx-auto flex min-h-screen flex-col items-center justify-center px-4 pt-[80px]">
           <section>
-            <Button className="px-6">+ Add New Sighting</Button>
+            <Link href="/new-sighting">
+              <Button className="px-6">+ Add New Sighting</Button>
+            </Link>
           </section>
           <section className="text-gray-600 ">
             <div className="container px-5 py-12 mx-auto">
