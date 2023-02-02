@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { trpc } from '../../utils/trpc';
 import styles from './index.module.css';
 import { Info } from './infoIcon';
@@ -19,7 +20,9 @@ export const SightingCard = ({ sighting }: SightingCardProps) => {
 
   return (
     <div className="relative bg-white shadow-2xl overflow-hidden w-72 h-96 rounded-md m-2">
-      <div className={`${styles.image} bg-cover bg-center`} style={{ backgroundImage: `url(${sighting?.image})` }} />
+      <div className={styles.image}>
+        <Image src={sighting.image} alt={sighting.name} fill />
+      </div>
       <div className={styles.wave} />
       <div className={styles.wave} />
       <div className={styles.wave} />

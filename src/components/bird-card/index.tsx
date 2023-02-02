@@ -2,6 +2,7 @@ import Link from 'next/link';
 import styles from './index.module.css';
 import { Info } from './infoIcon';
 import { useState } from 'react';
+import Image from 'next/image';
 
 interface BirdCardProps {
   bird: {
@@ -18,7 +19,11 @@ export const BirdCard = ({ bird }: BirdCardProps) => {
 
   return (
     <div className="relative bg-white shadow-2xl overflow-hidden w-72 h-96 rounded-md m-2">
-      <Link href={`/bird-details/${bird.id}`} ><div className={`${styles.image} bg-cover bg-center`} style={{ backgroundImage: `url(${bird.image})` }} /></Link>
+      <Link href={`/bird-details/${bird.id}`} >
+        <div className={styles.image}>
+          <Image src={bird.image} alt={bird.name} fill className='rounded-b-[45px]' />
+        </div>
+      </Link>
       <div className={styles.wave} />
       <div className={styles.wave} />
       <div className={styles.wave} />
