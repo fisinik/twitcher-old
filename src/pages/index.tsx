@@ -5,10 +5,11 @@ import { BirdCard } from "../components/bird-card";
 import Layout from "../components/layout";
 import Button from "../components/button";
 import Link from "next/link";
+import { LoadingSkeleton } from "../components/bird-card/loading-skeleton";
 
 const Home: NextPage = () => {
-  const { data: birds } = trpc.bird.getAll.useQuery()
-
+  const { data: birds, isLoading: isBirdLoading, isError: isBirdError } = trpc.bird.getAll.useQuery()
+  if (isBirdError) return <div>Something went wrong</div>;
   return (
     <>
       <Head>
@@ -26,12 +27,12 @@ const Home: NextPage = () => {
           <section className="text-gray-600 ">
             <div className="container px-5 py-12 mx-auto">
               <div className="flex flex-wrap -m-4 justify-center">
-                {birds ? (
+                {!isBirdLoading ? (
                   birds.map(bird => (
                     <BirdCard key={bird.id} bird={bird} />
                   ))
                 ) : (
-                  <p>Loading..</p>
+                  [1, 2, 3].map((_, i) => <LoadingSkeleton key={i} />)
                 )}
               </div>
             </div>
