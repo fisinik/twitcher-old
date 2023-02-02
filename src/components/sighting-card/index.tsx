@@ -3,7 +3,6 @@ import { trpc } from '../../utils/trpc';
 import styles from './index.module.css';
 import { Info } from './infoIcon';
 import { useState } from 'react';
-import { LoadingSkeleton } from './loading-skeleton';
 
 interface SightingCardProps {
   sighting: {
@@ -17,9 +16,7 @@ interface SightingCardProps {
 
 export const SightingCard = ({ sighting }: SightingCardProps) => {
   const [isInfoCardOpen, setIsInfoCardOpen] = useState(false);
-  const { data: author, error: authorError, isLoading: authorIsLoading } = trpc.user.getSightingAuthor.useQuery({ id: sighting.author });
-  if (authorIsLoading) return <LoadingSkeleton />
-  if (authorError) return <div>{authorError.message}</div>
+  const { data: author } = trpc.user.getSightingAuthor.useQuery({ id: sighting.author });
   return (
     <div className="relative bg-white shadow-2xl overflow-hidden w-72 h-96 rounded-md m-2">
       <div className={styles.image}>
@@ -29,12 +26,18 @@ export const SightingCard = ({ sighting }: SightingCardProps) => {
       <div className={styles.wave} />
       <div className={styles.wave} />
       <div className="absolute left-0 right-0 top-64 z-10 flex px-3 gap-x-4 items-center">
-        {author && author.image && author.name &&
+        {author && author.image && author.name ? (
           <Image src={author.image} alt={author.name} width={56} height={56} className='rounded-full border border-teal-500 shadow-xl' />
-        }
+        ) : (
+          <div className='w-14 h-14 rounded-full border border-teal-500 shadow-xl' />
+        )}
         <div className='flex flex-col'>
           <h2 className='font-medium text-xl text-opacity-90 text-gray-800' >{sighting.name}</h2>
-          <p className=' text-sm text-opacity-80 text-gray-600'>by {author?.name} </p>
+          {author && author.name ? (
+            <p className=' text-sm text-opacity-80 text-gray-600'>by {author.name} </p>
+          ) : (
+            <div className='w-24 h-4 bg-gray-300 rounded animate-pulse' />
+          )}
         </div>
       </div>
       <div className="absolute left-0 right-0 bottom-4 px-3 flex justify-between">

@@ -8,8 +8,8 @@ import Link from "next/link";
 import { LoadingSkeleton } from "../components/bird-card/loading-skeleton";
 
 const Home: NextPage = () => {
-  const { data: birds, isLoading: isBirdLoading, isError: isBirdError } = trpc.bird.getAll.useQuery()
-  if (isBirdError) return <div>Something went wrong</div>;
+  const { data: birds, isLoading: areBirdsLoading, isError: isBirdFetchingError } = trpc.bird.getAll.useQuery()
+  if (isBirdFetchingError) return <div>Something went wrong</div>;
   return (
     <>
       <Head>
@@ -27,12 +27,12 @@ const Home: NextPage = () => {
           <section className="text-gray-600 ">
             <div className="container px-5 py-12 mx-auto">
               <div className="flex flex-wrap -m-4 justify-center">
-                {!isBirdLoading ? (
+                {areBirdsLoading ? (
+                  [1, 2, 3, 4].map((_, i) => <LoadingSkeleton key={i} />)
+                ) : (
                   birds.map(bird => (
                     <BirdCard key={bird.id} bird={bird} />
                   ))
-                ) : (
-                  [1, 2, 3].map((_, i) => <LoadingSkeleton key={i} />)
                 )}
               </div>
             </div>
