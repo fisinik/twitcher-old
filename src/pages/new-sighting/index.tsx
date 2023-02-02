@@ -7,38 +7,7 @@ import React, { useState } from "react";
 import { useAuth } from "../../components/hooks/useAuth";
 import axios from "axios";
 import { env } from "../../env/client.mjs";
-import { useFormValidation } from "../../components/hooks/useFormValidation";
 import Link from "next/link";
-
-const initialFormValues = {
-  name: '',
-  location: '',
-  description: '',
-  image: '',
-}
-
-const fields = {
-  name: (value: string) => {
-    if (!value) {
-      return 'Sighting title is required';
-    }
-  },
-  location: (value: string) => {
-    if (!value) {
-      return 'Sighting location is required';
-    }
-  },
-  description: (value: string) => {
-    if (!value) {
-      return 'Sighting description is required';
-    }
-  },
-  image: (value: string) => {
-    if (!value) {
-      return 'Sighting image is required';
-    }
-  },
-} as { [field: string]: (value: string) => string | undefined };
 
 const NewSighting: NextPage = () => {
   const { data: birds } = trpc.bird.getAll.useQuery();
@@ -51,7 +20,7 @@ const NewSighting: NextPage = () => {
     if (!isAuthed || !session || !session.user) { return; } // to do: redirect to login page
     const form = event.currentTarget;
     const formData = new FormData(form);
-    const image = formData.get("bird_name")?.toString();
+    const image = formData.get("image") as File;
     if (!image) { return; } // to do: add error handling
     const imageData = new FormData();
     imageData.append("file", image);
@@ -61,7 +30,7 @@ const NewSighting: NextPage = () => {
     let url = '' as string;
     try {
       const resp = await axios.post(env.NEXT_PUBLIC_UPLOAD_URL, imageData);
-      url = resp.data.url;
+      url = resp.data.secure_url;
     } catch (error) {
       console.log(error);
     }
@@ -90,26 +59,20 @@ const NewSighting: NextPage = () => {
     // to do: add loading state
     // to do: add validation
   };
-  const {
-    handleChange,
-    handleSubmit,
-    values,
-    errors,
-  } = useFormValidation(initialFormValues, fields, handleAddSighting);
   return (
     <Layout>
       <div className="w-full h-full absolute bg-cover bg-center top-[80px] bg-gradient-to-r from-teal-50 to-teal-100" />
       <div className="flex flex-col mx-[16px] md:mx-[20px] xl:mx-[120px]">
         <div className="z-10 w-full flex flex-col md:flex-row md:gap-x-[50px] relative top-[160px] shadow-2xl bg-white p-[20px] rounded-sm">
-          <form onSubmit={handleSubmit}
+          <form onSubmit={handleAddSighting}
             className="flex flex-col gap-y-[10px] md:w-full md:mb-[70px]">
             <div className="flex flex-col gap-y-[10px] items-center p-[30px]">
               <h1 className="text-[24px] md:text-[40px] leading-[40px] font-light text-granny-smith"> Add New Sighting </h1>
             </div>
             <div className="flex flex-col md:flex-row gap-y-[10px] md:gap-x-[20px] items-center">
-              <FormInput label="Sighting title" type="text" name="name" onChange={handleChange} value={values.name} error={errors.name} />
+              <FormInput label="Sighting title" type="text" name="name" />
               <AutocompleteBirdName items={birds ? birds?.map((bird) => bird.name) : []} />
-              <FormInput label="Sighting location" type="text" name="location" onChange={handleChange} value={values.location} error={errors.location} />
+              <FormInput label="Sighting location" type="text" name="location" />
               <div className="md:flex-shrink-0 shadow-lg bg-gradient-to-l from-teal-50 hover:to-teal-100 md:shadow-xl cursor-pointer w-full md:w-[200px] md:ml-[30px] h-[50px] rounded-md text-teal-400 flex justify-center items-center">
                 <label className="cursor-pointer flex">
                   <input type="file" className="hidden" name="image" />
