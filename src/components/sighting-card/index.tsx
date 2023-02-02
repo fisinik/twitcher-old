@@ -3,6 +3,7 @@ import { trpc } from '../../utils/trpc';
 import styles from './index.module.css';
 import { Info } from './infoIcon';
 import { useState } from 'react';
+import { LoadingSkeleton } from './loading-skeleton';
 
 interface SightingCardProps {
   sighting: {
@@ -16,8 +17,9 @@ interface SightingCardProps {
 
 export const SightingCard = ({ sighting }: SightingCardProps) => {
   const [isInfoCardOpen, setIsInfoCardOpen] = useState(false);
-  const { data: author } = trpc.user.getSightingAuthor.useQuery({ id: sighting.author });
-
+  const { data: author, error: authorError, isLoading: authorIsLoading } = trpc.user.getSightingAuthor.useQuery({ id: sighting.author });
+  if (authorIsLoading) return <LoadingSkeleton />
+  if (authorError) return <div>{authorError.message}</div>
   return (
     <div className="relative bg-white shadow-2xl overflow-hidden w-72 h-96 rounded-md m-2">
       <div className={styles.image}>
@@ -27,7 +29,9 @@ export const SightingCard = ({ sighting }: SightingCardProps) => {
       <div className={styles.wave} />
       <div className={styles.wave} />
       <div className="absolute left-0 right-0 top-64 z-10 flex px-3 gap-x-4 items-center">
-        <span className='h-14 w-14 rounded-full bg-center bg-cover border border-teal-500' style={{ backgroundImage: `url(${author?.image})` }}></span>
+        {author && author.image && author.name &&
+          <Image src={author.image} alt={author.name} width={56} height={56} className='rounded-full border border-teal-500 shadow-xl' />
+        }
         <div className='flex flex-col'>
           <h2 className='font-medium text-xl text-opacity-90 text-gray-800' >{sighting.name}</h2>
           <p className=' text-sm text-opacity-80 text-gray-600'>by {author?.name} </p>
