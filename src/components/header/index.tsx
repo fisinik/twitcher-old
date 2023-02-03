@@ -47,7 +47,7 @@ export default function Header() {
               <li className={`${styles.menuItem} hover:bg-gradient-to-l from-neutral-50 hover:text-gray-800 xl:bg-neutral-50 xl:hover:text-2xl xl:hover:text-gray-900 cursor-pointer flex items-center justify-center py-6 xl:py-0`}
                 onClick={() => { setIsUserProfileOpen(!isUserProfileOpen); isMenuOpen && setIsMenuOpen(false) }}>
                 <span
-                  className="h-24 w-24 xl:h-16 xl:w-16 bg-cover bg-center rounded-full inline-block "
+                  className="h-24 w-24 xl:h-14 xl:w-14 bg-cover bg-center rounded-full inline-block border border-teal-400"
                   style={{ backgroundImage: `url(${session.user.image})` }}
                 >
                 </span>
