@@ -21,7 +21,12 @@ export const BirdCard = ({ bird }: BirdCardProps) => {
     <div className="relative bg-white shadow-2xl overflow-hidden w-72 h-96 rounded-md m-2">
       <Link href={`/bird-details/${bird.id}`} >
         <div className={styles.image}>
-          <Image src={bird.image} alt={bird.name} fill className='rounded-b-[45px]' />
+          <Image src={bird.image} alt={bird.name} fill className='rounded-b-[45px] object-cover object-center'
+            sizes="(max-width: 768px) 100vw,
+          (max-width: 1200px) 50vw,
+          33vw"
+            priority
+          />
         </div>
       </Link>
       <div className={styles.wave} />

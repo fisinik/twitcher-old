@@ -21,7 +21,12 @@ export const SightingCard = ({ sighting }: SightingCardProps) => {
   return (
     <div className="relative bg-white shadow-2xl overflow-hidden w-72 h-96 rounded-md m-2">
       <Link href={`/sighting-details/${sighting.id}`} className={styles.image}>
-        <Image src={sighting.image} alt={sighting.name} fill />
+        <Image src={sighting.image} alt={sighting.name} fill
+          sizes="(max-width: 768px) 100vw,
+          (max-width: 1200px) 50vw,
+          33vw"
+          priority
+        />
       </Link>
       <div className={styles.wave} />
       <div className={styles.wave} />
