@@ -24,11 +24,10 @@ const SightingDetails: NextPage = () => {
           <div className='flex items-start lg:items-center lg:p-4'>
 
             <div className='relative border grow h-[350px] sm:h-[400px] sm:shadow-none lg:h-[500px] lg:w-auto lg:border-teal-200 border-opacity-30 rounded-sm bg-white'>
-              {isSightingLoading ? (
-                <div>Loading...</div>
-              ) : (<>
+              {sighting && sighting.image && sighting.name ? (
                 <Image src={sighting.image} alt={sighting.name} priority fill className='lg:rounded-md lg:p-1 object-cover object-center shadow-2xl' />
-              </>
+              ) : (
+                <div>Loading...</div>
               )}
             </div>
 
@@ -52,14 +51,22 @@ const SightingDetails: NextPage = () => {
               <div className='flex justify-between'>
                 <div className="flex flex-col">
                   <div className="text-gray-600 text-opacity-80 text-sm  xl:text-center">Bird name</div>
-                  <Link href={`/bird-details/${bird?.id}`}>
-                    <div className="text-gray-700 text-[20px] font-bold xl:text-center">{bird?.name}</div>
-                  </Link>
+                  {bird && bird.id && bird.name ? (
+                    <Link href={`/bird-details/${bird.id}`}>
+                      <div className="text-gray-700 text-[20px] font-bold xl:text-center">{bird.name}</div>
+                    </Link>
+                  ) : (
+                    <div className='w-24 h-4 bg-gray-300 rounded animate-pulse' />
+                  )}
                 </div>
 
                 <div className="flex flex-col">
                   <div className="text-gray-600 text-opacity-80 text-sm xl:text-center">Sighting location</div>
-                  <div className="text-gray-700 text-[20px] font-bold xl:text-center">{sighting?.location}</div>
+                  {sighting && sighting.location ? (
+                    <div className="text-gray-700 text-[20px] font-bold xl:text-center">{sighting.location}</div>
+                  ) : (
+                    <div className='w-24 h-4 bg-gray-300 rounded animate-pulse' />
+                  )}
                 </div>
               </div>
             </div>
@@ -80,14 +87,22 @@ const SightingDetails: NextPage = () => {
                   ) : (
                     <div className='w-24 h-4 bg-gray-300 rounded animate-pulse' />
                   )}
-                  <h2 className='text-xl text-gray-700 font-bold xl:text-center' >{sighting?.name}</h2>
+                  {sighting && sighting.name ? (
+                    <h2 className='text-xl text-gray-700 font-bold xl:text-center' >{sighting.name}</h2>
+                  ) : (
+                    <div className='w-24 h-4 bg-gray-300 rounded animate-pulse' />
+                  )}
                 </div>
 
                 <div className="flex flex-col">
                   <div className="text-gray-600 text-opacity-80 text-sm  xl:text-center">Bird name</div>
-                  <Link href={`/bird-details/${bird?.id}`}>
-                    <div className="text-gray-700 text-[20px] font-bold xl:text-center">{bird?.name}</div>
-                  </Link>
+                  {bird && bird.id && bird.name ? (
+                    <Link href={`/bird-details/${bird.id}`}>
+                      <div className="text-gray-700 text-[20px] font-bold xl:text-center">{bird.name}</div>
+                    </Link>
+                  ) : (
+                    <div className='w-24 h-4 bg-gray-300 rounded animate-pulse' />
+                  )}
                 </div>
 
                 <div className='hidden xl:flex flex-col gap-y-1 items-center justify-center xl:grow'>
@@ -101,16 +116,28 @@ const SightingDetails: NextPage = () => {
                   ) : (
                     <div className='w-24 h-4 bg-gray-300 rounded animate-pulse' />
                   )}
-                  <h2 className='text-xl text-gray-700 font-bold xl:text-center' >{sighting?.name}</h2>
+                  {sighting && sighting.name ? (
+                    <h2 className='text-xl text-gray-700 font-bold xl:text-center' >{sighting.name}</h2>
+                  ) : (
+                    <div className='w-24 h-4 bg-gray-300 rounded animate-pulse' />
+                  )}
                 </div>
                 <div className="flex flex-col">
                   <div className="text-gray-600 text-opacity-80 text-sm xl:text-center">Sighting location</div>
-                  <div className="text-gray-700 text-[20px] font-bold xl:text-center">{sighting?.location}</div>
+                  {sighting && sighting.location ? (
+                    <div className="text-gray-700 text-[20px] font-bold xl:text-center">{sighting.location}</div>
+                  ) : (
+                    <div className='w-24 h-4 bg-gray-300 rounded animate-pulse' />
+                  )}
                 </div>
               </div>
 
               <div className="flex flex-col px-2">
-                <div className="text-gray-600 text-[16px] font-normal font-sans lg:p-2">{sighting?.description}</div>
+                {sighting && sighting.description ? (
+                  <div className="text-gray-600 text-[16px] font-normal font-sans lg:p-2">{sighting.description}</div>
+                ) : (
+                  <div className='w-24 h-4 bg-gray-300 rounded animate-pulse' />
+                )}
               </div>
 
             </div>
