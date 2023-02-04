@@ -3,6 +3,7 @@ import { trpc } from '../../utils/trpc';
 import styles from './index.module.css';
 import { Info } from './infoIcon';
 import { useState } from 'react';
+import Link from 'next/link';
 
 interface SightingCardProps {
   sighting: {
@@ -19,20 +20,22 @@ export const SightingCard = ({ sighting }: SightingCardProps) => {
   const { data: author } = trpc.user.getSightingAuthor.useQuery({ id: sighting.author });
   return (
     <div className="relative bg-white shadow-2xl overflow-hidden w-72 h-96 rounded-md m-2">
-      <div className={styles.image}>
+      <Link href={`/sighting-details/${sighting.id}`} className={styles.image}>
         <Image src={sighting.image} alt={sighting.name} fill />
-      </div>
+      </Link>
       <div className={styles.wave} />
       <div className={styles.wave} />
       <div className={styles.wave} />
       <div className="absolute left-0 right-0 top-64 z-10 flex px-3 gap-x-4 items-center">
         {author && author.image && author.name ? (
-          <Image src={author.image} alt={author.name} width={56} height={56} className='rounded-full border border-teal-500 shadow-xl' />
+          <Image src={author.image} alt={author.name} width={56} height={56} className='rounded-full border border-teal-500 shadow-xl object-cover object-center' />
         ) : (
           <div className='w-14 h-14 rounded-full border border-teal-500 shadow-xl' />
         )}
         <div className='flex flex-col'>
-          <h2 className='font-medium text-xl text-opacity-90 text-gray-800' >{sighting.name}</h2>
+          <Link href={`/sighting-details/${sighting.id}`}>
+            <h2 className='font-medium text-xl text-opacity-90 text-gray-800' >{sighting.name}</h2>
+          </Link>
           {author && author.name ? (
             <p className=' text-sm text-opacity-80 text-gray-600'>by {author.name} </p>
           ) : (
@@ -41,12 +44,12 @@ export const SightingCard = ({ sighting }: SightingCardProps) => {
         </div>
       </div>
       <div className="absolute left-0 right-0 bottom-4 px-3 flex justify-between">
-        <a className="text-gray-700 inline-flex items-center md:mb-2 lg:mb-0">Read More
+        <Link href={`/sighting-details/${sighting.id}`} className="text-gray-700 inline-flex items-center md:mb-2 lg:mb-0">Read More
           <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="#2DD4BF" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
             <path d="M5 12h14"></path>
             <path d="M12 5l7 7-7 7"></path>
           </svg>
-        </a>
+        </Link>
         <div>
           <span className="text-gray-700 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-[1px] border-teal-400">
             <svg className="w-4 h-4 mr-1" stroke="#2DD4BF" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
