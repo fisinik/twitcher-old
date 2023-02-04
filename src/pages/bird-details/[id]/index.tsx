@@ -34,17 +34,17 @@ const BirdDetails: NextPage = () => {
             <div className="relative bg-gradient-to-t from-black h-full w-full" />
           </div>
           <div className="hidden md:block h-full w-full md:absolute md:top-0 md:left-[20px] md:w-[300px] rounded-[3px]" >
-            <Image src={bird.image} fill alt="image of the bird" />
+            <Image src={bird.image} fill alt="image of the bird" className="rounded-[5px] shadow-2xl border border-white" />
           </div>
-          <div className="z-10 pl-[40px] pt-[175px] md:absolute md:pl-0 left-[350px] bottom-[100px]">
+          <div className="z-10 h-full pb-20 px-10 w-full flex flex-col items-start justify-end md:absolute md:pb-0 md:px-0 left-[350px] bottom-[100px]">
             <div className="flex gap-x-[10px] pb-[20px]">
               <button className="text-[12px] leading-[12px] bg-gray-500 bg-opacity-60 h-[30px] w-[103px] rounded-[20px] text-white"> {bird?.sighting?.length} sightings</button>
             </div>
-            <h1 className="text-white text-[30px] leading-[30px] font-light md:text-[35px] md:leading-[35px] pb-[10px]"> {bird?.name} </h1>
-            <h2 className="text-white text-[14px] leading-[14px] font-light opacity-85"> {bird?.binomialName} </h2>
+            <h1 className="text-white text-[30px] leading-[30px] font-light md:text-[35px] md:leading-[35px] border-b-2 border-teal-400 border-opacity-75"> {bird?.name} </h1>
+            <h2 className="text-white text-[14px] leading-[14px] font-light opacity-85 pt-[10px]"> {bird?.binomialName} </h2>
           </div>
           <Link href="/new-sighting/">
-            <Button className="z-10 ml-[40px] absolute -bottom-6 md:ml-0 md:right-[60px] md:bottom-[100px] xl:right-[120px] w-[188px] ">+ Add New Sighting</Button></Link>
+            <Button className="z-10 ml-[40px] absolute -bottom-6 md:ml-0 md:right-[10px] w-[190px] md:w-[155px] lg:w-[190px] md:px-2 md:bottom-[100px] xl:right-[120px]  ">+ Add New Sighting</Button></Link>
         </div>
         <div className="mx-[40px] pb-[40px] md:mx-[20px] flex flex-col md:flex-row md:pb-[20px] md:border-b-[1px] md:border-line md:flex md:mt-[50px] md:gap-x-[140px] xl:mr-[120px]">
           <div className="mt-[84px] mb-[34px] text-[13px] leading-[25px] font-bold text-gray-600 text-justify md:basis-1/4 md:self-center md:mt-[50px] md:mb-0 md:ml-10 lg:text-base lg:font-medium">
