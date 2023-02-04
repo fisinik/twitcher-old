@@ -20,7 +20,7 @@ export default function Header() {
         <div className="flex items-center">
           <Logo />
           <Link className="text-4xl font-bold text-gray-800 font-ubuntu"
-            href="/" onClick={() => isMenuOpen && setIsMenuOpen(false)}>
+            href="/" onClick={() => { isMenuOpen && setIsMenuOpen(false); isUserProfileOpen && setIsUserProfileOpen(false) }}>
             Tw <span className={`-mx-2 ${isMenuOpen ? 'text-gray-800 opacity-100' : 'text-teal-400 opacity-80'} xl:text-teal-400 xl:opacity-80`}> itch </span> er
           </Link>
         </div>
