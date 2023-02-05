@@ -33,7 +33,9 @@ export const SightingCard = ({ sighting }: SightingCardProps) => {
       <div className={styles.wave} />
       <div className="absolute left-0 right-0 top-64 z-10 flex px-3 gap-x-4 items-center">
         {author && author.image && author.name ? (
-          <Image src={author.image} alt={author.name} width={56} height={56} className='rounded-full border border-teal-500 shadow-xl object-cover object-center' />
+          <Link href={`/user-sightings/${author.id}`}>
+            <Image src={author.image} alt={author.name} width={56} height={56} className='rounded-full border border-teal-500 shadow-xl object-cover object-center' />
+          </Link>
         ) : (
           <div className='w-14 h-14 rounded-full border border-teal-500 shadow-xl' />
         )}
@@ -42,7 +44,9 @@ export const SightingCard = ({ sighting }: SightingCardProps) => {
             <h2 className='font-medium text-xl text-opacity-90 text-gray-800' >{sighting.name}</h2>
           </Link>
           {author && author.name ? (
-            <p className=' text-sm text-opacity-80 text-gray-600'>by {author.name} </p>
+            <Link href={`/user-sightings/${author.id}`}>
+              <p className=' text-sm text-opacity-80 text-gray-600'>by {author.name} </p>
+            </Link>
           ) : (
             <div className='w-24 h-4 bg-gray-300 rounded animate-pulse' />
           )}
