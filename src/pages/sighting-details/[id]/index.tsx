@@ -12,9 +12,26 @@ const SightingDetails: NextPage = () => {
   const { id } = router.query;
   const { data: sighting, isError: isErrorFetchingSighting } = trpc.sighting.getOne.useQuery({ id: id as string });
   if (isErrorFetchingSighting) return <div>Error fetching sighting</div>;
-  const { data: bird, isError: isErrorFetchingBird } = trpc.bird.getOne.useQuery({ id: sighting?.birdId as string });
+  const {
+    data: bird,
+    isError: isErrorFetchingBird
+  } = trpc.bird.getOne.useQuery({
+    id: sighting?.birdId as string
+  },
+    {
+      enabled: sighting?.birdId !== undefined
+    }
+  );
   if (isErrorFetchingBird) return <div>Error fetching bird</div>;
-  const { data: author, isError: isErrorFetchingAuthor } = trpc.user.getSightingAuthor.useQuery({ id: sighting?.author as string });
+  const {
+    data: author,
+    isError: isErrorFetchingAuthor
+  } = trpc.user.getSightingAuthor.useQuery({
+    id: sighting?.author as string
+  },
+    {
+      enabled: sighting?.author !== undefined
+    });
   if (isErrorFetchingAuthor) return <div>Error fetching author</div>;
   return (
     <Layout>
