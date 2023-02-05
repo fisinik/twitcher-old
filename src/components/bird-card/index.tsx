@@ -45,13 +45,14 @@ export const BirdCard = ({ bird }: BirdCardProps) => {
         <div className={`${styles.contents} flex flex-col`}>
           <h1 className="text-gray-800 text-2xl font-light text-center border-b-[1px] border-teal-700 pb-1">{bird.name}</h1>
           <p className={`${styles.lineClamp} text-gray-800 font-serif leading-7 my-4 text-center`}>{bird.description}</p>
-          <span className=' text-center font-light  rounded-md py-2 px-4 hover:px-5 self-center bg-teal-600 text-white hover:bg-teal-700 cursor-pointer shadow-xl'>
-            <Link href={`/bird-details/${bird.id}`} >
-              Read more
-            </Link>
-          </span>
+          <Link
+            href={`/bird-details/${bird.id}`}
+            className=' text-center font-light  rounded-md py-2 px-4 hover:px-5 self-center bg-teal-600 text-white hover:bg-teal-700 cursor-pointer shadow-xl'
+          >
+            Read more
+          </Link>
         </div>
       </div>
-    </div >
+    </div>
   )
 }

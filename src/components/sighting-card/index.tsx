@@ -78,7 +78,12 @@ export const SightingCard = ({ sighting }: SightingCardProps) => {
         <div className={`${styles.contents} flex flex-col`}>
           <h1 className="text-gray-800 text-xl font-medium text-center border-b-[1px] border-teal-700 pb-1">{sighting.name}</h1>
           <p className={`${styles.lineClamp} text-gray-800 font-serif leading-7 my-4 text-center`}>{sighting.description}</p>
-          <span className=' text-center font-medium  rounded-md py-2 px-4 hover:px-5 self-center bg-teal-700 text-white hover:bg-teal-800 cursor-pointer shadow-xl'>Read more</span>
+          <Link
+            href={`/sighting-details/${sighting.id}`}
+            className=' text-center font-medium  rounded-md py-2 px-4 hover:px-5 self-center bg-teal-700 text-white hover:bg-teal-800 cursor-pointer shadow-xl'
+          >
+            Read more
+          </Link>
         </div>
       </div>
     </div >
