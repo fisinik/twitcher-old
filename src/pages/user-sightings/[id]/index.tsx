@@ -25,11 +25,11 @@ const UserSightings: NextPage = () => {
     <Layout>
       <main className="z-auto container mx-auto flex min-h-screen flex-col items-center justify-center px-4 pt-[80px]">
         <section className="text-gray-600 ">
-          <div className="container pt-12 mx-auto flex flex-col items-center justify-center ">
+          <div className="container pt-12 mx-auto flex flex-col items-center justify-center gap-y-3">
             {user && user.image && user.name ? (
               <Image src={user.image} alt={user.name} width={80} height={80} className='rounded-full border border-teal-500 shadow-xl' />
             ) : (
-              <div className='w-14 h-14 rounded-full border border-teal-500 shadow-xl' />
+              <div className='w-20 h-20 rounded-full border border-teal-500 shadow-xl bg-teal-100 bg-opacity-70 animate-pulse' />
             )}
             <div className="flex flex-col">
               <div className="text-gray-600 text-opacity-80 text-sm text-center">User</div>
