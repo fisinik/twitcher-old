@@ -18,7 +18,7 @@ export const BirdCard = ({ bird }: BirdCardProps) => {
   const [isInfoCardOpen, setIsInfoCardOpen] = useState(false);
 
   return (
-    <div className="relative bg-white shadow-2xl overflow-hidden w-72 h-96 rounded-md m-2">
+    <div className="relative bg-white shadow-2xl overflow-hidden w-72 h-96 rounded-md m-2 transform duration-100 hover:-translate-y-2">
       <Link href={`/bird-details/${bird.id}`} >
         <div className={styles.image}>
           <Image src={bird.image} alt={bird.name} fill
