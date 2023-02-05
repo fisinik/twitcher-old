@@ -56,7 +56,7 @@ const SightingDetails: NextPage = () => {
                 {author && author.image && author.name ? (
                   <Image src={author.image} alt={author.name} width={64} height={64} className='rounded-full border border-teal-500 shadow-xl' />
                 ) : (
-                  <div className='w-14 h-14 rounded-full border border-teal-500 shadow-xl' />
+                  <div className='w-14 h-14 rounded-full border border-teal-500 shadow-xl bg-teal-100 bg-opacity-70 animate-pulse' />
                 )}
 
                 {author && author.name ? (
@@ -103,7 +103,7 @@ const SightingDetails: NextPage = () => {
                   {author && author.image && author.name ? (
                     <Image src={author.image} alt={author.name} width={56} height={56} className='rounded-full border border-teal-500 shadow-xl' />
                   ) : (
-                    <div className='w-14 h-14 rounded-full border border-teal-500 shadow-xl' />
+                    <div className='w-14 h-14 rounded-full border border-teal-500 shadow-xl bg-teal-100 bg-opacity-70 animate-pulse' />
                   )}
                   {author && author.name ? (
                     <p className=' text-sm text-opacity-80 text-gray-600'>by {author.name} </p>
@@ -132,7 +132,7 @@ const SightingDetails: NextPage = () => {
                   {author && author.image && author.name ? (
                     <Image src={author.image} alt={author.name} width={56} height={56} className='rounded-full border border-teal-500 shadow-xl' />
                   ) : (
-                    <div className='w-14 h-14 rounded-full border border-teal-500 shadow-xl' />
+                    <div className='w-14 h-14 rounded-full border border-teal-500 shadow-xl bg-teal-100 bg-opacity-70 animate-pulse' />
                   )}
                   {author && author.name ? (
                     <p className=' text-sm text-opacity-80 text-gray-600'>by {author.name} </p>

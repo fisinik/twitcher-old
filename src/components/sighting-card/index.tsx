@@ -37,7 +37,7 @@ export const SightingCard = ({ sighting }: SightingCardProps) => {
             <Image src={author.image} alt={author.name} width={56} height={56} className='rounded-full border border-teal-500 shadow-xl object-cover object-center' />
           </Link>
         ) : (
-          <div className='w-14 h-14 rounded-full border border-teal-500 shadow-xl' />
+          <div className='w-14 h-14 rounded-full border border-teal-500 shadow-xl bg-teal-100 bg-opacity-70 animate-pulse' />
         )}
         <div className='flex flex-col'>
           <Link href={`/sighting-details/${sighting.id}`}>
