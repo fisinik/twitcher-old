@@ -19,13 +19,14 @@ export const SightingCard = ({ sighting }: SightingCardProps) => {
   const [isInfoCardOpen, setIsInfoCardOpen] = useState(false);
   const { data: author } = trpc.user.getSightingAuthor.useQuery({ id: sighting.author });
   return (
-    <div className="relative bg-white shadow-2xl overflow-hidden w-72 h-96 rounded-md m-2">
+    <div className="relative bg-white shadow-2xl overflow-hidden w-72 h-96 rounded-md m-2 transform duration-100 hover:-translate-y-2">
       <Link href={`/sighting-details/${sighting.id}`} className={styles.image}>
         <Image src={sighting.image} alt={sighting.name} fill
           sizes="(max-width: 768px) 100vw,
           (max-width: 1200px) 50vw,
           33vw"
           priority
+          className='hover:opacity-80 hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:rounded-b-[45px] hover:object-cover hover:object-center'
         />
       </Link>
       <div className={styles.wave} />

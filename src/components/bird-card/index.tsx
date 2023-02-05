@@ -21,11 +21,12 @@ export const BirdCard = ({ bird }: BirdCardProps) => {
     <div className="relative bg-white shadow-2xl overflow-hidden w-72 h-96 rounded-md m-2">
       <Link href={`/bird-details/${bird.id}`} >
         <div className={styles.image}>
-          <Image src={bird.image} alt={bird.name} fill className='rounded-b-[45px] object-cover object-center'
+          <Image src={bird.image} alt={bird.name} fill
             sizes="(max-width: 768px) 100vw,
           (max-width: 1200px) 50vw,
           33vw"
             priority
+            className='hover:opacity-80 hover:scale-105 transition-all duration-300 hover:shadow-2xl rounded-b-[45px] hover:object-cover hover:object-center'
           />
         </div>
       </Link>
