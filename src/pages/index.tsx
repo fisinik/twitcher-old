@@ -18,13 +18,23 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <main className="z-auto container mx-auto flex min-h-screen flex-col items-center justify-center px-4 pt-[80px]">
+        <main className="z-auto container mx-auto flex min-h-screen flex-col items-center justify-center pt-[80px]">
+
+          <section className="h-[400px] w-full relative" style={{ backgroundImage: `url('/bird-details-bg.png')` }}>
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-y-4 bg-gradient-to-t from-black">
+              <h1 className="text-6xl font-thin text-white">Twitcher</h1>
+              <p className="text-2xl font-light text-white opacity-90">A place to share your bird sightings</p>
+              <input type="text" className="bg-white rounded-lg w-3/4 lg:w-1/2 h-[50px] px-4 py-2 text-gray-600 text-xl" placeholder="Search for a bird" />
+            </div>
+          </section>
+
           <section className="pt-6 lg:pt-0">
             <Link href="/new-sighting">
               <Button className="px-6">+ Add New Sighting</Button>
             </Link>
           </section>
-          <section className="text-gray-600 ">
+
+          <section className="text-gray-600">
             <div className="container px-5 py-12 mx-auto">
               <div className="flex flex-wrap -m-4 justify-center">
                 {areBirdsLoading ? (
@@ -37,6 +47,7 @@ const Home: NextPage = () => {
               </div>
             </div>
           </section>
+
         </main>
       </Layout>
     </>
