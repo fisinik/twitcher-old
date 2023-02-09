@@ -20,7 +20,7 @@ const Home: NextPage = () => {
       <Layout>
         <main className="z-auto container mx-auto flex min-h-screen flex-col items-center justify-center pt-[80px]">
 
-          <section className="h-[400px] w-full relative" style={{ backgroundImage: `url('/bird-details-bg.png')` }}>
+          <section className="h-[500px] w-full relative" style={{ backgroundImage: `url('/bird-details-bg.png')` }}>
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-y-4 bg-gradient-to-t from-black">
               <h1 className="text-6xl font-thin text-white">Twitcher</h1>
               <p className="text-2xl font-light text-white opacity-90">A place to share your bird sightings</p>
