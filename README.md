@@ -2,7 +2,7 @@
 
 This is a web application for bird lovers to share their favorite feathered friends and learn about new sightings.
 
-The design is based on the [Twitcher](https://www.figma.com/file/hEJbX6Qdja9HMe9nj4r3D5/Twitcher?node-id=14%3A5&t=akmE6b7UqXPeciIp-1) figma design by me.
+The website is a pixel perfect implementation of the [Twitcher](https://www.figma.com/file/hEJbX6Qdja9HMe9nj4r3D5/Twitcher?node-id=14%3A5&t=akmE6b7UqXPeciIp-1) figma design.
 
 ## Technologies
 
