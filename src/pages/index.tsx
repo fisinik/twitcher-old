@@ -6,6 +6,7 @@ import Layout from "../components/layout";
 import Button from "../components/button";
 import Link from "next/link";
 import { LoadingSkeleton } from "../components/bird-card/loading-skeleton";
+import FormInput from "../components/form-input";
 
 const Home: NextPage = () => {
   const { data: birds, isLoading: areBirdsLoading, isError: isBirdFetchingError } = trpc.bird.getAll.useQuery()
@@ -23,8 +24,10 @@ const Home: NextPage = () => {
           <section className="h-[500px] w-full relative" style={{ backgroundImage: `url('/bird-details-bg.png')` }}>
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-y-4 bg-gradient-to-t from-black">
               <h1 className="text-6xl font-thin text-white">Twitcher</h1>
-              <p className="text-2xl font-light text-white opacity-90">A place to share your bird sightings</p>
-              <input type="text" className="bg-white rounded-lg w-3/4 lg:w-1/2 h-[50px] px-4 py-2 text-gray-600 text-xl" placeholder="Search for a bird" />
+              <p className="text-2xl font-light text-white opacity-90 text-center">A place to share your bird sightings</p>
+              <div className="w-3/4 md:w-1/2">
+                <FormInput label="Search for a bird..." type="text" name="search" />
+              </div>
             </div>
           </section>
 
