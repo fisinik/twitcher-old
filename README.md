@@ -27,15 +27,15 @@ Configure your local environment: copy the .env.local
 cp .env.local.example .env.local
 ```
 
-Run the development server:
+Run the server:
 
 ```bash
 # development mode
-npm/yarn dev
+npm/yarn run dev
 
 # production mode
-npm/yarn build
-npm/yarn start
+npm/yarn run build
+npm/yarn run start
 ```
 
 ## Deploy on Vercel
