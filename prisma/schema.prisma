@@ -74,6 +74,7 @@ model Bird {
   sighting       Sighting[]
   description    String           @db.Text
   subspecies     String?          @db.Text
+  favorite       BirdFavorite[]
 }
 
 model Classification {
@@ -94,16 +95,88 @@ model Classification {
 }
 
 model Sighting {
-  id          String   @id @default(cuid())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   name        String
   author      String
-  description String   @db.Text
+  description String    @db.Text
   image       String
   location    String
-  bird        Bird     @relation(fields: [birdId], references: [id])
+  bird        Bird      @relation(fields: [birdId], references: [id])
   birdId      String
+  comment     SightingComment[]
+  like        SightingLike[]
+
+  @@index([birdId])
+}
+
+model SightingLike {
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  author     String
+  sighting   Sighting @relation(fields: [sightingId], references: [id])
+  sightingId String
+
+  @@index([sightingId])
+}
+
+model SightingComment {
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  author     String
+  comment    String   @db.Text
+  sighting   Sighting @relation(fields: [sightingId], references: [id])
+  sightingId String
+  like       SightingCommentLike[]
+  dislike    SightingCommentDislike[]
+  reply      SightingCommentReply[]
+
+  @@index([sightingId])
+}
+
+model SightingCommentLike {
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  author     String
+  comment    SightingComment @relation(fields: [commentId], references: [id])
+  commentId  String
+
+  @@index([commentId])
+}
+
+model SightingCommentDislike {
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  author     String
+  comment    SightingComment @relation(fields: [commentId], references: [id])
+  commentId  String
+
+  @@index([commentId])
+}
+
+model SightingCommentReply {
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  author     String
+  comment    SightingComment @relation(fields: [commentId], references: [id])
+  commentId  String
+
+  @@index([commentId])
+}
+
+model BirdFavorite {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  author    String
+  bird      Bird     @relation(fields: [birdId], references: [id])
+  birdId    String
 
   @@index([birdId])
 }
