@@ -61,13 +61,13 @@ const NewSighting: NextPage = () => {
   };
   return (
     <Layout>
-      <div className="w-full h-full absolute bg-cover bg-center top-[80px] bg-gradient-to-r from-teal-50 to-teal-100" />
+      <div className="w-full h-full absolute top-[80px] bg-gradient-to-r from-teal-50 to-teal-100" />
       <div className="flex flex-col mx-[16px] md:mx-[20px] xl:mx-[120px]">
         <div className="z-10 w-full flex flex-col md:flex-row md:gap-x-[50px] relative top-[160px] shadow-2xl bg-white p-[20px] rounded-sm">
           <form onSubmit={handleAddSighting}
             className="flex flex-col gap-y-[10px] md:w-full md:mb-[70px]">
             <div className="flex flex-col gap-y-[10px] items-center p-[30px]">
-              <h1 className="text-[24px] md:text-[40px] leading-[40px] font-light text-granny-smith"> Add New Sighting </h1>
+              <h1 className="text-[24px] md:text-[40px] font-light text-gray-900"> Add New Sighting </h1>
             </div>
             <div className="flex flex-col md:flex-row gap-y-[10px] md:gap-x-[20px] items-center">
               <FormInput label="Sighting title" type="text" name="name" />
