@@ -178,5 +178,6 @@ model BirdFavorite {
   bird      Bird     @relation(fields: [birdId], references: [id])
   birdId    String
 
+  @@unique([birdId, author])
   @@index([birdId])
 }
