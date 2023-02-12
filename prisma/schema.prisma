@@ -119,6 +119,7 @@ model SightingLike {
   sighting   Sighting @relation(fields: [sightingId], references: [id])
   sightingId String
 
+  @@unique([sightingId, author])
   @@index([sightingId])
 }
 
