@@ -2,13 +2,15 @@ import Image from "next/image";
 import Button from "../button"
 import { useAuth } from "../hooks/useAuth"
 import { Session } from "next-auth";
+import Link from "next/link";
 
 export const UserProfile = ({
-  isVisible, onClose, session
+  isVisible, onClose, session, userSightings
 }: {
   isVisible: boolean,
   onClose: () => void,
   session: Session,
+  userSightings: string,
 }) => {
   const { signOut } = useAuth();
   if (!isVisible) return null;
@@ -31,15 +33,21 @@ export const UserProfile = ({
           <div className="flex flex-col p-[17px] gap-y-[31px] md:px-14">
             <div className="flex items-center gap-x-[30px]  pb-[18px]">
               {user.image ? (
-                <Image src={user.image} alt="user profile image" width={80} height={80} className='rounded-full border border-teal-400' />
+                <Link href={`/user-sightings/${user.id}`}>
+                  <Image src={user.image} alt="user profile image" width={80} height={80} className='rounded-full border border-teal-400' />
+                </Link>
               ) : (
                 <div className="w-[80px] h-[80px] relative rounded-full border border-teal-400" />
               )}
               <div className='flex flex-col gap-y-[6px]'>
-                <h1 className="text-gray-900 text-[25px] leading-[25px] font-light">
-                  {user?.name}
-                </h1>
-                <h1 className="text-gray-600 font-normal text-[13px] leading-4"> 47 sightings </h1>
+                <Link href={`/user-sightings/${user.id}`}>
+                  <h1 className="text-gray-900 text-[25px] leading-[25px] font-light">
+                    {user?.name}
+                  </h1>
+                </Link>
+                <Link href={`/user-sightings/${user.id}`}>
+                  <h1 className="text-gray-600 font-normal text-[13px] leading-4"> {userSightings} sightings </h1>
+                </Link>
               </div>
             </div>
             <div className='flex flex-col gap-y-[16px]'>
