@@ -44,6 +44,47 @@ const SightingDetails: NextPage = () => {
     }
   });
 
+  const { data: userLikes } = trpc.sighting.getUserLikes.useQuery({ author: user?.id as string });
+  const isLiked = userLikes?.find(like => like.sightingId === id) ? true : false;
+  const likeSightingCtx = trpc.useContext();
+  const { mutate: mutateLikeSighting } = trpc.sighting.likeSighting.useMutation({
+    onSuccess: () => {
+      likeSightingCtx.sighting.getUserLikes.invalidate({ author: user?.id as string });
+      likeSightingCtx.sighting.getSightingLikes.invalidate({ sightingId: id as string });
+    }
+  });
+  const { mutate: mutateUnlikeSighting } = trpc.sighting.unlikeSighting.useMutation({
+    onSuccess: () => {
+      likeSightingCtx.sighting.getUserLikes.invalidate({ author: user?.id as string });
+      likeSightingCtx.sighting.getSightingLikes.invalidate({ sightingId: id as string });
+    }
+  });
+  const { data: sightingLikes } = trpc.sighting.getSightingLikes.useQuery({ sightingId: id as string });
+
+  function handleLike() {
+    if (!isAuthed) return router.push('/api/auth/signin');
+    try {
+      mutateLikeSighting({
+        sightingId: id as string,
+        author: user?.id as string
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function handleUnlike() {
+    if (!isAuthed) return router.push('/api/auth/signin');
+    const likeId = userLikes?.find(like => like.sightingId === id)?.id;
+    try {
+      mutateUnlikeSighting({
+        id: likeId as string,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   function handleNewComment(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!isAuthed) {
@@ -103,6 +144,31 @@ const SightingDetails: NextPage = () => {
                 )}
               </div>
 
+              <div className="flex items-center gap-x-2 justify-center">
+                {isLiked ? (<span className="hover:bg-teal-300 bg-opacity-60 bg-teal-200 hover:bg-opacity-60 rounded-full cursor-pointer"
+                  onClick={handleUnlike}>
+                  <svg className="p-1" width="40" height="40" viewBox="-0.7 -1 25 25" fill="#e11d48" xmlns="http://www.w3.org/2000/svg">
+                    <g id="Interface / Heart_01">
+                      <path id="Vector"
+                        d="M12 7.19431C10 2.49988 3 2.99988 3 8.99991C3 14.9999 12 20.0001 12 20.0001C12 20.0001 21 14.9999 21 8.99991C21 2.99988 14 2.49988 12 7.19431Z"
+                        stroke="#be123c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </g>
+                  </svg>
+                </span>) : (
+                  <span className="bg-teal-200 bg-opacity-60 hover:bg-teal-300 hover:bg-opacity-60 rounded-full cursor-pointer"
+                    onClick={handleLike}>
+                    <svg className="p-1" width="40" height="40" viewBox="-0.7 -1 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g id="Interface / Heart_01">
+                        <path id="Vector"
+                          d="M12 7.19431C10 2.49988 3 2.99988 3 8.99991C3 14.9999 12 20.0001 12 20.0001C12 20.0001 21 14.9999 21 8.99991C21 2.99988 14 2.49988 12 7.19431Z"
+                          stroke="#be123c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </g>
+                    </svg>
+                  </span>
+                )}
+                <button className="mt-1 text-[13px] leading-[12px] bg-teal-200 bg-opacity-60 h-[35px] w-[110px] rounded-[20px]  hover:bg-teal-300 text-gray-800 hover:bg-opacity-60"> {sightingLikes?.length === 0 ? 'no likes yet!' : sightingLikes?.length === 1 ? '1 like' : `${sightingLikes?.length} likes`}</button>
+              </div>
+
               <div className='flex justify-between'>
                 <div className="flex flex-col">
                   <div className="text-gray-600 text-opacity-80 text-sm  xl:text-center">Bird name</div>
@@ -149,6 +215,31 @@ const SightingDetails: NextPage = () => {
                   )}
                 </div>
 
+                <div className="flex items-center gap-x-2 justify-center">
+                  {isLiked ? (<span className="hover:bg-teal-300 bg-opacity-60 bg-teal-200 hover:bg-opacity-60 rounded-full cursor-pointer"
+                    onClick={handleUnlike}>
+                    <svg className="p-1" width="40" height="40" viewBox="-0.7 -1 25 25" fill="#e11d48" xmlns="http://www.w3.org/2000/svg">
+                      <g id="Interface / Heart_01">
+                        <path id="Vector"
+                          d="M12 7.19431C10 2.49988 3 2.99988 3 8.99991C3 14.9999 12 20.0001 12 20.0001C12 20.0001 21 14.9999 21 8.99991C21 2.99988 14 2.49988 12 7.19431Z"
+                          stroke="#be123c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </g>
+                    </svg>
+                  </span>) : (
+                    <span className="bg-teal-200 bg-opacity-60 hover:bg-teal-300 hover:bg-opacity-60 rounded-full cursor-pointer"
+                      onClick={handleLike}>
+                      <svg className="p-1" width="40" height="40" viewBox="-0.7 -1 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g id="Interface / Heart_01">
+                          <path id="Vector"
+                            d="M12 7.19431C10 2.49988 3 2.99988 3 8.99991C3 14.9999 12 20.0001 12 20.0001C12 20.0001 21 14.9999 21 8.99991C21 2.99988 14 2.49988 12 7.19431Z"
+                            stroke="#be123c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </g>
+                      </svg>
+                    </span>
+                  )}
+                  <button className="mt-1 text-[13px] leading-[12px] bg-teal-200 bg-opacity-60 h-[35px] w-[110px] rounded-[20px]  hover:bg-teal-300 text-gray-800 hover:bg-opacity-60"> {sightingLikes?.length === 0 ? 'no likes yet!' : sightingLikes?.length === 1 ? '1 like' : `${sightingLikes?.length} likes`}</button>
+                </div>
+
                 <div className="flex flex-col">
                   <div className="text-gray-600 text-opacity-80 text-sm  xl:text-center">Bird name</div>
                   {bird && bird.id && bird.name ? (
@@ -177,6 +268,7 @@ const SightingDetails: NextPage = () => {
                     <div className='w-24 h-3 bg-teal-200 bg-opacity-70 rounded animate-pulse' />
                   )}
                 </div>
+
                 <div className="flex flex-col">
                   <div className="text-gray-600 text-opacity-80 text-sm xl:text-center">Sighting location</div>
                   {sighting && sighting.location ? (
@@ -185,6 +277,7 @@ const SightingDetails: NextPage = () => {
                     <div className='w-24 h-3 bg-teal-200 bg-opacity-70 rounded animate-pulse' />
                   )}
                 </div>
+
               </div>
 
               <div className="flex flex-col px-2">
