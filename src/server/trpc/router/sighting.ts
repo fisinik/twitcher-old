@@ -67,7 +67,7 @@ export const sightingRouter = router({
         },
       });
     }),
-    createSightingComment: publicProcedure
+  createSightingComment: publicProcedure
     .input(
       z.object({
         sightingId: z.string(),
@@ -81,10 +81,10 @@ export const sightingRouter = router({
           sightingId: input.sightingId,
           author: input.author,
           comment: input.comment,
-        }
-      })
+        },
+      });
     }),
-    getSightingComments: publicProcedure
+  getSightingComments: publicProcedure
     .input(
       z.object({
         sightingId: z.string(),
@@ -92,6 +92,60 @@ export const sightingRouter = router({
     )
     .query(({ ctx, input }) => {
       return ctx.prisma.sightingComment.findMany({
+        where: {
+          sightingId: input.sightingId,
+        },
+      });
+    }),
+  getUserLikes: publicProcedure
+    .input(
+      z.object({
+        author: z.string(),
+      })
+    )
+    .query(({ ctx, input }) => {
+      return ctx.prisma.sightingLike.findMany({
+        where: {
+          author: input.author,
+        },
+      });
+    }),
+  likeSighting: publicProcedure
+    .input(
+      z.object({
+        sightingId: z.string(),
+        author: z.string(),
+      })
+    )
+    .mutation(({ ctx, input }) => {
+      return ctx.prisma.sightingLike.create({
+        data: {
+          sightingId: input.sightingId,
+          author: input.author,
+        },
+      });
+    }),
+  unlikeSighting: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(({ ctx, input }) => {
+      return ctx.prisma.sightingLike.delete({
+        where: {
+          id: input.id,
+        },
+      });
+    }),
+  getSightingLikes: publicProcedure
+    .input(
+      z.object({
+        sightingId: z.string(),
+      })
+    )
+    .query(({ ctx, input }) => {
+      return ctx.prisma.sightingLike.findMany({
         where: {
           sightingId: input.sightingId,
         },
