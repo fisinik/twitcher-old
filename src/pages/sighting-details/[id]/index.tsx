@@ -6,10 +6,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Button from '../../../components/button';
 import FormInput from '../../../components/form-input';
+import { useAuth } from '../../../components/hooks/useAuth';
 
 const SightingDetails: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
+  const { isAuthed, session } = useAuth();
+  const user = session?.user;
   const { data: sighting, isError: isErrorFetchingSighting } = trpc.sighting.getOne.useQuery({ id: id as string });
   if (isErrorFetchingSighting) return <div>Error fetching sighting</div>;
   const {
@@ -33,6 +36,30 @@ const SightingDetails: NextPage = () => {
       enabled: sighting?.author !== undefined
     });
   if (isErrorFetchingAuthor) return <div>Error fetching author</div>;
+  const { data: sightingComments } = trpc.sighting.getSightingComments.useQuery({ sightingId: id as string });
+  const { mutate } = trpc.sighting.createSightingComment.useMutation();
+
+  function handleNewComment(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!isAuthed) {
+      alert('You need to be logged in to comment');
+      return;
+    }
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const comment = formData.get('comment') as string;
+    try {
+      mutate({
+        comment,
+        sightingId: id as string,
+        author: user?.id as string
+      })
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
   return (
     <Layout>
       <div className="w-full h-full absolute bg-cover bg-center top-[80px] bg-gradient-to-r from-teal-50 to-teal-100" />
@@ -177,14 +204,18 @@ const SightingDetails: NextPage = () => {
         </div>
 
         <div className='md:w-2/3 px-8'>
-          {
-            [1, 2, 3, 4, 5].map((i) => (
-              <Comment key={i} />
+          {sightingComments && sightingComments.length > 0 ? (
+            sightingComments.map((comment) => (
+              <Comment key={comment.id} comment={comment} />
             ))
-          }
+          ) : (
+            <div className='flex flex-col gap-y-3 p-6'>
+              {[1, 2, 3, 4, 5].map((i,) => (<div key={i} className='w-full h-3 bg-teal-200 bg-opacity-70 rounded animate-pulse' />))}
+            </div>
+          )}
         </div>
         <div className='px-4 md:w-2/3 pb-12'>
-          <form className='flex flex-col gap-y-4'>
+          <form className='flex flex-col gap-y-4' onSubmit={handleNewComment}>
             <FormInput
               name='comment'
               label='Write a comment...'
@@ -206,18 +237,67 @@ SightingDetails.getInitialProps = async (context: NextPageContext) => {
   return { id };
 }
 
-const Comment = () => {
+type CommentProps = {
+  author: string;
+  id: string;
+  createdAt: Date;
+  sightingId: string;
+  comment: string;
+  updatedAt: Date;
+}
+
+const Comment = ({
+  comment
+}: {
+  comment: CommentProps
+}) => {
+  const { data: author } = trpc.user.getUser.useQuery({ id: comment.author });
+
+  function formatDate(date: Date): string {
+    const now = new Date();
+    const d = new Date(date);
+    const diff = now.getTime() - d.getTime();
+    const ti = new Intl.DateTimeFormat("en", {
+      hour: "numeric",
+      minute: "numeric",
+    }).format(d);
+
+    if (diff < 60 * 60 * 1000) {
+      // Less than an hour
+      const minutes = Math.round(diff / 1000 / 60);
+      return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+    } else if (diff < 24 * 60 * 60 * 1000) {
+      // Less than a day
+      const hours = Math.round(diff / 1000 / 60 / 60);
+      return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+    } else if (d.toDateString() === now.toDateString()) {
+      // Today
+      return `${ti}`;
+    } else {
+      // More than a day
+      const days = Math.round(diff / 1000 / 60 / 60 / 24);
+      return `${days} day${days > 1 ? "s" : ""} ago`;
+    }
+  }
+
+  console.log(comment);
   return (
     <div className="flex flex-col gap-y-5 py-3">
       <div className="flex gap-x-4 items-center">
-        <div className="w-12 h-12 rounded-full border border-teal-500 shadow-xl" />
+        {author && author.image && author.name ? (
+          <Link href={`/user-sightings/${author.id}`}>
+            <Image src={author.image} alt={author.name} width={56} height={56} className='rounded-full border border-teal-500 shadow-xl object-cover object-center' />
+          </Link>
+        ) : (
+          <div className='w-14 h-14 rounded-full border border-teal-500 shadow-xl bg-teal-100 bg-opacity-70 animate-pulse' />
+        )}
         <div>
-          <div className="text-gray-800 text-opacity-80 text-md font-medium  xl:text-center"> John Doe</div  >
-          <div className="text-gray-600 text-opacity-80 text-sm xl:text-center"> 4 days ago </div>
+          <div className="text-gray-800 text-opacity-80 text-md font-medium  xl:text-center"> {author?.name} </div>
+          <div className="text-gray-600 text-opacity-80 text-sm"> {formatDate(comment.createdAt)} </div>
         </div>
       </div>
       <p className="grow font-normal text-[16px] text-justify text-gray-700 font-sans tablet:min-h-[45px] border-b-[1px] pb-[25px]">
-        Very nice bird. I saw it in my garden.
+        {comment.comment}
       </p>
     </div>
   )
