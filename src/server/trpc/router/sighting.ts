@@ -67,4 +67,34 @@ export const sightingRouter = router({
         },
       });
     }),
+    createSightingComment: publicProcedure
+    .input(
+      z.object({
+        sightingId: z.string(),
+        author: z.string(),
+        comment: z.string(),
+      })
+    )
+    .mutation(({ ctx, input }) => {
+      return ctx.prisma.sightingComment.create({
+        data: {
+          sightingId: input.sightingId,
+          author: input.author,
+          comment: input.comment,
+        }
+      })
+    }),
+    getSightingComments: publicProcedure
+    .input(
+      z.object({
+        sightingId: z.string(),
+      })
+    )
+    .query(({ ctx, input }) => {
+      return ctx.prisma.sightingComment.findMany({
+        where: {
+          sightingId: input.sightingId,
+        },
+      });
+    }),
 });
