@@ -262,7 +262,11 @@ const Comment = ({
       minute: "numeric",
     }).format(d);
 
-    if (diff < 60 * 60 * 1000) {
+    if (diff < 60 * 1000) {
+      // Less than a minute
+      const seconds = Math.round(diff / 1000);
+      return `${seconds} second${seconds > 1 ? "s" : ""} ago`;
+    } else if (diff < 60 * 60 * 1000) {
       // Less than an hour
       const minutes = Math.round(diff / 1000 / 60);
       return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
@@ -273,14 +277,22 @@ const Comment = ({
     } else if (d.toDateString() === now.toDateString()) {
       // Today
       return `${ti}`;
-    } else {
-      // More than a day
+    } else if (diff < 30 * 24 * 60 * 60 * 1000) {
+      // Less than a month
       const days = Math.round(diff / 1000 / 60 / 60 / 24);
       return `${days} day${days > 1 ? "s" : ""} ago`;
+    } else if (diff < 12 * 30 * 24 * 60 * 60 * 1000) {
+      // Less than a year
+      const months = Math.round(diff / 1000 / 60 / 60 / 24 / 30);
+      return `${months} month${months > 1 ? "s" : ""} ago`;
+    } else {
+      // More than a year
+      const years = Math.floor(diff / 1000 / 60 / 60 / 24 / 365);
+      const remainingMonths = Math.round((diff - (years * 365 * 24 * 60 * 60 * 1000)) / 1000 / 60 / 60 / 24 / 30);
+      return `${years} year${years > 1 ? "s" : ""} and ${remainingMonths} month${remainingMonths > 1 ? "s" : ""} ago`;
     }
   }
 
-  console.log(comment);
   return (
     <div className="flex flex-col gap-y-5 py-3">
       <div className="flex gap-x-4 items-center">
