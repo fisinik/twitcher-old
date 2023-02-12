@@ -36,8 +36,13 @@ const SightingDetails: NextPage = () => {
       enabled: sighting?.author !== undefined
     });
   if (isErrorFetchingAuthor) return <div>Error fetching author</div>;
+  const newCommentCtx = trpc.useContext();
   const { data: sightingComments } = trpc.sighting.getSightingComments.useQuery({ sightingId: id as string });
-  const { mutate } = trpc.sighting.createSightingComment.useMutation();
+  const { mutate } = trpc.sighting.createSightingComment.useMutation({
+    onSuccess: () => {
+      newCommentCtx.sighting.getSightingComments.invalidate({ sightingId: id as string });
+    }
+  });
 
   function handleNewComment(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
