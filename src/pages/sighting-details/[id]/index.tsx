@@ -203,7 +203,7 @@ const SightingDetails: NextPage = () => {
       <div className='relative top-[240px] h-[350px] flex flex-col md:items-center w-full p-8 gap-y-8'>
         <div className='flex justify-between items-center gap-y-10 md:w-2/3 border-b-[1px] pb-6'>
           <h1 className='text-2xl lg:text-[30px] font-light'>
-            14 Comments
+            {sightingComments?.length === 0 ? 'No comments yet!' : sightingComments?.length === 1 ? '1 Comment' : `${sightingComments?.length} Comments`}
           </h1>
           <Button className='w-[150px] mb-2'>Add Comment</Button>
         </div>
