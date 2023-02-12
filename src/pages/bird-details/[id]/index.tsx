@@ -6,12 +6,50 @@ import Button from "../../../components/button";
 import Link from "next/link";
 import { SightingCard } from "../../../components/sighting-card";
 import Image from "next/image";
+import { useAuth } from "../../../components/hooks/useAuth";
 
 const BirdDetails: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const { data: bird } = trpc.bird.getOne.useQuery({ id: id as string });
   const { data: sightings } = trpc.sighting.getBirdSightings.useQuery({ id: id as string });
+  const { data: birdFavorites } = trpc.bird.getFavorites.useQuery({ id: id as string });
+  const ctx = trpc.useContext();
+  const { mutate: mutateFavoriteBird } = trpc.bird.makeFavorite.useMutation({
+    onSuccess: () => {
+      ctx.bird.getUserFavorites.invalidate({ id: user?.id as string });
+      ctx.bird.getFavorites.invalidate({ id: id as string });
+    }
+  });
+  const { mutate: mutateUnfavoriteBird } = trpc.bird.removeFavorite.useMutation({
+    onSuccess: () => {
+      ctx.bird.getUserFavorites.invalidate({ id: user?.id as string });
+      ctx.bird.getFavorites.invalidate({ id: id as string });
+    }
+  });
+  const { isAuthed, session } = useAuth();
+  const user = session?.user;
+  const { data: userFavorites } = trpc.bird.getUserFavorites.useQuery({ id: user?.id as string });
+  const isFavorite = userFavorites?.find(favorite => favorite.birdId === id) ? true : false;
+
+  function handleFavorite() {
+    if (!isAuthed) return router.push('/login');
+    try {
+      mutateFavoriteBird({ birdId: id as string, author: user?.id as string });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function handleRemoveFavorite() {
+    if (!isAuthed) return router.push('/login');
+    const favoriteId = userFavorites?.find(favorite => favorite.birdId === id)?.id;
+    try {
+      mutateUnfavoriteBird({ id: favoriteId as string });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   if (!bird || !sightings) {
     return (
@@ -36,12 +74,36 @@ const BirdDetails: NextPage = () => {
           <div className="hidden md:block h-full w-full md:absolute md:top-0 md:left-[20px] md:w-[300px] rounded-[3px]" >
             <Image src={bird.image} fill alt="image of the bird" className="rounded-[5px] shadow-2xl border border-white" />
           </div>
-          <div className="z-10 h-full pb-20 px-10 w-full flex flex-col items-start justify-end md:absolute md:pb-0 md:px-0 left-[350px] bottom-[100px]">
-            <div className="flex gap-x-[10px] pb-[20px]">
-              <button className="text-[12px] leading-[12px] bg-gray-500 bg-opacity-60 h-[30px] w-[103px] rounded-[20px] text-white"> {bird?.sighting?.length} sightings</button>
+          <div className="z-10 h-full pb-12 px-10 w-full flex flex-col items-start gap-y-2 justify-end md:absolute md:pb-0 md:px-0 left-[350px] bottom-[100px]">
+            <div>
+              <h1 className="text-white text-[30px] leading-[30px] font-light md:text-[35px] md:leading-[35px] border-b-2 border-teal-400 border-opacity-75"> {bird?.name} </h1>
+              <h2 className="text-white text-[14px] leading-[14px] font-light opacity-85 pt-[10px]"> {bird?.binomialName} </h2>
             </div>
-            <h1 className="text-white text-[30px] leading-[30px] font-light md:text-[35px] md:leading-[35px] border-b-2 border-teal-400 border-opacity-75"> {bird?.name} </h1>
-            <h2 className="text-white text-[14px] leading-[14px] font-light opacity-85 pt-[10px]"> {bird?.binomialName} </h2>
+            <button className="mt-2 text-[12px] leading-[12px] bg-gray-500 bg-opacity-60 h-[35px] w-[103px] rounded-[20px] text-white hover:bg-white hover:text-black hover:bg-opacity-60"> {bird?.sighting?.length} sightings</button>
+            <div className="flex items-center gap-x-2">
+              {isFavorite ? (<span className="bg-gray-500 bg-opacity-60 hover:bg-white hover:bg-opacity-60 rounded-full cursor-pointer"
+                onClick={handleRemoveFavorite}>
+                <svg className="p-1" width="40" height="40" viewBox="-0.7 -1 25 25" fill="#e11d48" xmlns="http://www.w3.org/2000/svg">
+                  <g id="Interface / Heart_01">
+                    <path id="Vector"
+                      d="M12 7.19431C10 2.49988 3 2.99988 3 8.99991C3 14.9999 12 20.0001 12 20.0001C12 20.0001 21 14.9999 21 8.99991C21 2.99988 14 2.49988 12 7.19431Z"
+                      stroke="#be123c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </g>
+                </svg>
+              </span>) : (
+                <span className="bg-gray-500 bg-opacity-60 hover:bg-white hover:bg-opacity-60 rounded-full cursor-pointer"
+                  onClick={handleFavorite}>
+                  <svg className="p-1" width="40" height="40" viewBox="-0.7 -1 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g id="Interface / Heart_01">
+                      <path id="Vector"
+                        d="M12 7.19431C10 2.49988 3 2.99988 3 8.99991C3 14.9999 12 20.0001 12 20.0001C12 20.0001 21 14.9999 21 8.99991C21 2.99988 14 2.49988 12 7.19431Z"
+                        stroke="#be123c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </g>
+                  </svg>
+                </span>
+              )}
+              <button className="mt-1 text-[12px] leading-[12px] bg-gray-500 bg-opacity-60 h-[35px] w-[110px] rounded-[20px] text-white hover:bg-white hover:text-black hover:bg-opacity-60"> {birdFavorites?.length === 0 ? 'no favorites yet!' : birdFavorites?.length === 1 ? '1 favorite' : `${birdFavorites?.length} favorites`}</button>
+            </div>
           </div>
           <Link href="/new-sighting/">
             <Button className="z-10 ml-[40px] absolute -bottom-6 md:ml-0 md:right-[10px] w-[190px] md:w-[155px] lg:w-[190px] md:px-2 md:bottom-[100px] xl:right-[120px]  ">+ Add New Sighting</Button></Link>
