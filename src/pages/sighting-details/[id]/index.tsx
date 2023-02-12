@@ -60,10 +60,10 @@ const SightingDetails: NextPage = () => {
         sightingId: id as string,
         author: user?.id as string
       })
+      form.reset();
     } catch (error) {
       console.log(error);
     }
-
   }
   return (
     <Layout>
