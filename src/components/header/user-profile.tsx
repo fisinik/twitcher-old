@@ -15,6 +15,7 @@ export const UserProfile = ({
   const { signOut } = useAuth();
   if (!isVisible) return null;
   if (!session || !session.user) return null;
+  if (!userSightings) return null;
   const { user } = session;
   const handleClose = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (e.target === e.currentTarget) onClose();
