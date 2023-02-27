@@ -1,19 +1,18 @@
-
 export const LoadingSkeleton = () => {
   return (
-    <div className="relative bg-white shadow-2xl overflow-hidden w-72 h-96 rounded-md m-2">
-      <div className="absolute left-0 right-0 top-64 z-10 flex px-3 gap-x-4 items-center">
-        <div className="w-14 h-14 rounded-full bg-gray-300 animate-pulse" />
+    <div className="relative m-2 h-96 w-72 overflow-hidden rounded-md bg-white shadow-2xl">
+      <div className="absolute left-0 right-0 top-64 z-10 flex items-center gap-x-4 px-3">
+        <div className="h-14 w-14 animate-pulse rounded-full bg-gray-300" />
         <div className="flex flex-col">
-          <div className="w-32 h-4 bg-gray-300 animate-pulse" />
-          <div className="w-24 h-3 bg-gray-300 animate-pulse" />
+          <div className="h-4 w-32 animate-pulse bg-gray-300" />
+          <div className="h-3 w-24 animate-pulse bg-gray-300" />
         </div>
       </div>
-      <div className="absolute left-0 right-0 bottom-4 px-3 flex justify-between">
-        <div className="w-24 h-4 bg-gray-300 animate-pulse" />
+      <div className="absolute left-0 right-0 bottom-4 flex justify-between px-3">
+        <div className="h-4 w-24 animate-pulse bg-gray-300" />
         <div className="flex gap-x-4">
-          <div className="w-12 h-4 bg-gray-300 animate-pulse" />
-          <div className="w-12 h-4 bg-gray-300 animate-pulse" />
+          <div className="h-4 w-12 animate-pulse bg-gray-300" />
+          <div className="h-4 w-12 animate-pulse bg-gray-300" />
         </div>
       </div>
     </div>

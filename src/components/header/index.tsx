@@ -12,7 +12,7 @@ export default function Header() {
   const { session, signIn } = useAuth();
   // lock scrolling when menu is open
   useEffect(() => {
-    document.body.classList.toggle('overflow-hidden', isMenuOpen);
+    document.body.classList.toggle("overflow-hidden", isMenuOpen);
   }, [isMenuOpen]);
 
   const { data: userSightings } = trpc.sighting.getUserSightings.useQuery(
@@ -23,62 +23,110 @@ export default function Header() {
   );
   return (
     <>
-      <header className={`${isMenuOpen ? 'bg-gradient-to-l from-teal-500 to-neutral-50 shadow' : 'bg-neutral-50'} fixed w-full z-50 h-[80px] shadow-2xl flex items-center justify-between pr-4 md:px-8 xl:from-neutral-50`}>
+      <header
+        className={`${
+          isMenuOpen
+            ? "bg-gradient-to-l from-teal-500 to-neutral-50 shadow"
+            : "bg-neutral-50"
+        } fixed z-50 flex h-[80px] w-full items-center justify-between pr-4 shadow-2xl md:px-8 xl:from-neutral-50`}
+      >
         <div className="flex items-center">
           <Logo />
-          <Link className="text-4xl font-bold text-gray-800 font-ubuntu"
-            href="/" onClick={() => { isMenuOpen && setIsMenuOpen(false); isUserProfileOpen && setIsUserProfileOpen(false) }}>
-            Tw <span className={`-mx-2 ${isMenuOpen ? 'text-gray-800 opacity-100' : 'text-teal-400 opacity-80'} xl:text-teal-400 xl:opacity-80`}> itch </span> er
+          <Link
+            className="font-ubuntu text-4xl font-bold text-gray-800"
+            href="/"
+            onClick={() => {
+              isMenuOpen && setIsMenuOpen(false);
+              isUserProfileOpen && setIsUserProfileOpen(false);
+            }}
+          >
+            Tw
+            <span
+              className={`-mx-2 ${
+                isMenuOpen
+                  ? "text-gray-800 opacity-100"
+                  : "text-teal-400 opacity-80"
+              } xl:text-teal-400 xl:opacity-80`}
+            >
+              itch
+            </span>
+            er
           </Link>
         </div>
         <nav className="">
           <label className={`${styles.hamburger} mt-1`}>
-            <input className="xl:hidden" type="checkbox" checked={!isMenuOpen} onChange={() => setIsMenuOpen(!isMenuOpen)} />
+            <input
+              className="xl:hidden"
+              type="checkbox"
+              checked={!isMenuOpen}
+              onChange={() => setIsMenuOpen(!isMenuOpen)}
+            />
             <div>
               <span></span>
               <span></span>
             </div>
           </label>
           <ul
-            className={`${isMenuOpen ? styles.menuOpen : styles.menuClose} z-50 font-ubuntu w-screen fixed overflow-hidden top-[80px] right-0 bottom-0 flex flex-col items-center
-            justify-center
-            xl:opacity-100 xl:flex-row xl:bg-neutral-50 xl:static xl:w-auto xl:space-x-16 xl:font-normal xl:text-xl xl:pr-10
-            `}>
-            <Link className={`${styles.menuItem} hover:bg-gradient-to-l from-neutral-50 hover:text-gray-800 xl:bg-neutral-50 xl:hover:text-2xl xl:hover:text-gray-900`}
-              href="/" onClick={() => { isMenuOpen && setIsMenuOpen(false); isUserProfileOpen && setIsUserProfileOpen(false) }}
-            >Home</Link>
-            <Link className={`${styles.menuItem} hover:bg-gradient-to-l from-neutral-50 hover:text-gray-800 xl:bg-neutral-50 xl:hover:text-2xl xl:hover:text-gray-900`}
-              href="/sightings" onClick={() => { isMenuOpen && setIsMenuOpen(false); isUserProfileOpen && setIsUserProfileOpen(false) }}
-            >Sightings</Link>
+            className={`${
+              isMenuOpen ? styles.menuOpen : styles.menuClose
+            } font-ubuntu fixed top-[80px] right-0 bottom-0 z-50 flex w-screen flex-col items-center justify-center
+            overflow-hidden
+            xl:static xl:w-auto xl:flex-row xl:space-x-16 xl:bg-neutral-50 xl:pr-10 xl:text-xl xl:font-normal xl:opacity-100
+            `}
+          >
+            <Link
+              className={`${styles.menuItem} from-neutral-50 hover:bg-gradient-to-l hover:text-gray-800 xl:bg-neutral-50 xl:hover:text-2xl xl:hover:text-gray-900`}
+              href="/"
+              onClick={() => {
+                isMenuOpen && setIsMenuOpen(false);
+                isUserProfileOpen && setIsUserProfileOpen(false);
+              }}
+            >
+              Home
+            </Link>
+            <Link
+              className={`${styles.menuItem} from-neutral-50 hover:bg-gradient-to-l hover:text-gray-800 xl:bg-neutral-50 xl:hover:text-2xl xl:hover:text-gray-900`}
+              href="/sightings"
+              onClick={() => {
+                isMenuOpen && setIsMenuOpen(false);
+                isUserProfileOpen && setIsUserProfileOpen(false);
+              }}
+            >
+              Sightings
+            </Link>
             {session && session.user && session.user.image ? (
-              <li className={`${styles.menuItem} hover:bg-gradient-to-l from-neutral-50 hover:text-gray-800 xl:bg-neutral-50 xl:hover:text-2xl xl:hover:text-gray-900 cursor-pointer flex items-center justify-center py-6 xl:py-0`}
-                onClick={() => { setIsUserProfileOpen(!isUserProfileOpen); isMenuOpen && setIsMenuOpen(false) }}>
+              <li
+                className={`${styles.menuItem} flex cursor-pointer items-center justify-center from-neutral-50 py-6 hover:bg-gradient-to-l hover:text-gray-800 xl:bg-neutral-50 xl:py-0 xl:hover:text-2xl xl:hover:text-gray-900`}
+                onClick={() => {
+                  setIsUserProfileOpen(!isUserProfileOpen);
+                  isMenuOpen && setIsMenuOpen(false);
+                }}
+              >
                 <span
-                  className="h-20 w-20 xl:h-12 xl:w-12 bg-cover bg-center rounded-full inline-block border border-teal-400"
+                  className="inline-block h-20 w-20 rounded-full border border-teal-400 bg-cover bg-center xl:h-12 xl:w-12"
                   style={{ backgroundImage: `url(${session.user.image})` }}
-                >
-                </span>
+                ></span>
               </li>
             ) : (
-              <li className={`${styles.menuItem} hover:bg-gradient-to-l from-neutral-50 hover:text-gray-800 xl:bg-neutral-50 xl:hover:text-2xl xl:hover:text-gray-900 cursor-pointer`}>
-                <span
-                  className="cursor-pointer"
-                  onClick={() => signIn()}
-                >
+              <li
+                className={`${styles.menuItem} cursor-pointer from-neutral-50 hover:bg-gradient-to-l hover:text-gray-800 xl:bg-neutral-50 xl:hover:text-2xl xl:hover:text-gray-900`}
+              >
+                <span className="cursor-pointer" onClick={() => signIn()}>
                   Log in
                 </span>
-              </li>)}
+              </li>
+            )}
           </ul>
         </nav>
-      </header >
+      </header>
       {session && session.user && (
         <UserProfile
           isVisible={isUserProfileOpen}
           onClose={() => setIsUserProfileOpen(false)}
           session={session}
-          userSightings={(userSightings?.length)?.toString() as string}
+          userSightings={userSightings?.length?.toString() as string}
         />
       )}
     </>
-  )
+  );
 }

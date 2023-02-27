@@ -1,7 +1,11 @@
 /* wave effect */
 @keyframes wave {
-  0%   { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .image {
@@ -27,7 +31,6 @@
   animation: wave 55s infinite linear;
 }
 
-
 .wave:nth-child(2) {
   animation-duration: 50s;
 }
@@ -39,7 +42,7 @@
 /* information slide */
 .inside {
   z-index: 20;
-  background: #FFFFFF;
+  background: #ffffff;
   width: 140px;
   height: 140px;
   position: absolute;
@@ -67,13 +70,13 @@
 .lineClamp {
   display: -webkit-box;
   -webkit-line-clamp: 6;
-  -webkit-box-orient: vertical;  
+  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 /* only hover on desktop */
-@media (min-width:1281px) {
+@media (min-width: 1281px) {
   .inside:hover {
     width: 100%;
     right: 0;
@@ -83,13 +86,13 @@
     background: #2dd4bf; /* teal-400 */
     opacity: 0.85;
   }
-  
+
   .inside:hover .contents {
     opacity: 1;
     transform: scale(1);
     transform: translateY(0);
   }
-  
+
   .inside:hover .icon {
     opacity: 0;
     transition: opacity 0.3s ease-in;
@@ -97,7 +100,7 @@
 }
 
 /* only click on tablet, mobile */
-@media (max-width:1280px) {
+@media (max-width: 1280px) {
   .openInfoMobile {
     width: 100%;
     right: 0;

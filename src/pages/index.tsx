@@ -9,7 +9,11 @@ import { LoadingSkeleton } from "../components/bird-card/loading-skeleton";
 import FormInput from "../components/form-input";
 
 const Home: NextPage = () => {
-  const { data: birds, isLoading: areBirdsLoading, isError: isBirdFetchingError } = trpc.bird.getAll.useQuery()
+  const {
+    data: birds,
+    isLoading: areBirdsLoading,
+    isError: isBirdFetchingError,
+  } = trpc.bird.getAll.useQuery();
   if (isBirdFetchingError) return <div>Something went wrong</div>;
   return (
     <>
@@ -19,14 +23,22 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <main className="z-auto container mx-auto flex min-h-screen flex-col items-center justify-center pt-[80px]">
-
-          <section className="h-[500px] w-full relative" style={{ backgroundImage: `url('/bird-details-bg.png')` }}>
+        <main className="container z-auto mx-auto flex min-h-screen flex-col items-center justify-center pt-[80px]">
+          <section
+            className="relative h-[500px] w-full"
+            style={{ backgroundImage: `url('/bird-details-bg.png')` }}
+          >
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-y-4 bg-gradient-to-t from-black">
               <h1 className="text-6xl font-thin text-white">Twitcher</h1>
-              <p className="text-2xl font-light text-white opacity-90 text-center">A place to share your bird sightings</p>
+              <p className="text-center text-2xl font-light text-white opacity-90">
+                A place to share your bird sightings
+              </p>
               <div className="w-3/4 md:w-1/2">
-                <FormInput label="Search for a bird..." type="text" name="search" />
+                <FormInput
+                  label="Search for a bird..."
+                  type="text"
+                  name="search"
+                />
               </div>
             </div>
           </section>
@@ -38,19 +50,14 @@ const Home: NextPage = () => {
           </section>
 
           <section className="text-gray-600">
-            <div className="container px-5 py-12 mx-auto">
-              <div className="flex flex-wrap -m-4 justify-center">
-                {areBirdsLoading ? (
-                  [1, 2, 3, 4].map((_, i) => <LoadingSkeleton key={i} />)
-                ) : (
-                  birds.map(bird => (
-                    <BirdCard key={bird.id} bird={bird} />
-                  ))
-                )}
+            <div className="container mx-auto px-5 py-12">
+              <div className="-m-4 flex flex-wrap justify-center">
+                {areBirdsLoading
+                  ? [1, 2, 3, 4].map((_, i) => <LoadingSkeleton key={i} />)
+                  : birds.map((bird) => <BirdCard key={bird.id} bird={bird} />)}
               </div>
             </div>
           </section>
-
         </main>
       </Layout>
     </>
