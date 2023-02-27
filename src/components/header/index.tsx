@@ -15,7 +15,12 @@ export default function Header() {
     document.body.classList.toggle('overflow-hidden', isMenuOpen);
   }, [isMenuOpen]);
 
-  const { data: userSightings } = trpc.sighting.getUserSightings.useQuery({ id: session?.user?.id as string })
+  const { data: userSightings } = trpc.sighting.getUserSightings.useQuery(
+    { id: session?.user?.id as string },
+    {
+      enabled: !!session,
+    }
+  );
   return (
     <>
       <header className={`${isMenuOpen ? 'bg-gradient-to-l from-teal-500 to-neutral-50 shadow' : 'bg-neutral-50'} fixed w-full z-50 h-[80px] shadow-2xl flex items-center justify-between pr-4 md:px-8 xl:from-neutral-50`}>
