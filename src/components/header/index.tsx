@@ -42,7 +42,7 @@ export default function Header() {
           >
             Tw
             <span
-              className={`-mx-2 ${
+              className={`${
                 isMenuOpen
                   ? "text-gray-800 opacity-100"
                   : "text-teal-400 opacity-80"
