@@ -7,10 +7,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <Header />
       <AnimatePresence>
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 15 }}
-          transition={{ duration: 0.25 }}
+          exit={{ opacity: 0, y: 50 }}
+          transition={{ duration: 0.4 }}
         >
           <main>{children}</main>
         </motion.div>
