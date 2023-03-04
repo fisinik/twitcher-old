@@ -7,8 +7,17 @@ import Button from "../components/button";
 import Link from "next/link";
 import { LoadingSkeleton } from "../components/bird-card/loading-skeleton";
 import FormInput from "../components/form-input";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 const Home: NextPage = () => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
   const {
     data: birds,
     isLoading: areBirdsLoading,
@@ -23,17 +32,24 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <main className="container z-auto mx-auto flex min-h-screen flex-col items-center justify-center pt-[80px]">
-          <section
-            className="relative h-[500px] w-full"
-            style={{ backgroundImage: `url('/bird-details-bg.png')` }}
-          >
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-y-4 bg-gradient-to-t from-black">
-              <h1 className="text-6xl font-thin text-white">Twitcher</h1>
-              <p className="text-center text-2xl font-light text-white opacity-90">
-                A place to share your bird sightings
-              </p>
-              <div className="w-3/4 md:w-1/2">
+        <main className="container z-auto mx-auto flex min-h-screen flex-col items-center justify-center pt-[60px] md:pt-[80px]">
+          <section ref={ref} className="body-font text-gray-600">
+            <motion.div
+              style={{ y, opacity }}
+              className="absolute inset-0 -z-20 bg-gradient-to-t from-teal-100"
+            />
+            <div className="container mx-auto px-5 py-24">
+              <div className="mb-12 flex w-full flex-col text-center">
+                <h1 className="title-font mb-4 items-center text-3xl font-medium text-gray-900 lg:text-4xl">
+                  Discover and learn <br className="inline-block sm:hidden" />
+                  about Twitcher
+                </h1>
+                <p className="mx-auto text-base leading-relaxed lg:w-2/3">
+                  Twitcher is the perfect place for bird lovers to explore and
+                  learn about birds from all around the world.
+                </p>
+              </div>
+              <div className="mx-auto flex w-full flex-col items-end space-y-4 px-8 sm:flex-row sm:space-x-4 sm:space-y-0 sm:px-0 lg:w-2/3">
                 <FormInput
                   label="Search for a bird..."
                   type="text"
