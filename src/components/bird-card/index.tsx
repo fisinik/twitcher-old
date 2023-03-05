@@ -3,6 +3,7 @@ import styles from "./index.module.css";
 import { Info } from "./infoIcon";
 import { useState } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 type BirdCardProps = {
   bird: {
@@ -14,11 +15,28 @@ type BirdCardProps = {
   };
 };
 
+const birdCardVariants = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 1.5,
+    },
+  },
+};
+
 export const BirdCard = ({ bird }: BirdCardProps) => {
   const [isInfoCardOpen, setIsInfoCardOpen] = useState(false);
 
   return (
-    <div className="relative m-2 h-96 w-72 transform overflow-hidden rounded-md bg-white shadow-2xl duration-100 hover:-translate-y-2">
+    <motion.div
+      variants={birdCardVariants}
+      className="relative m-2 h-96 w-72 transform overflow-hidden rounded-md bg-white shadow-2xl duration-100 hover:-translate-y-2"
+    >
       <Link href={`/bird-details/${bird.id}`}>
         <div className={styles.image}>
           <Image
@@ -74,6 +92,6 @@ export const BirdCard = ({ bird }: BirdCardProps) => {
           </Link>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
