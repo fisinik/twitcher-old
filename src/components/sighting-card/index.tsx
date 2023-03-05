@@ -4,6 +4,7 @@ import styles from "./index.module.css";
 import { Info } from "./infoIcon";
 import { useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 type SightingCardProps = {
   sighting: {
@@ -15,13 +16,30 @@ type SightingCardProps = {
   };
 };
 
+const sightingCardVariants = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+    },
+  },
+};
+
 export const SightingCard = ({ sighting }: SightingCardProps) => {
   const [isInfoCardOpen, setIsInfoCardOpen] = useState(false);
   const { data: author } = trpc.user.getSightingAuthor.useQuery({
     id: sighting.author,
   });
   return (
-    <div className="relative m-2 h-96 w-72 transform overflow-hidden rounded-md bg-white shadow-2xl duration-100 hover:-translate-y-2">
+    <motion.div
+      variants={sightingCardVariants}
+      className="relative m-2 h-96 w-72 transform overflow-hidden rounded-md bg-white shadow-2xl duration-100 hover:-translate-y-2"
+    >
       <Link href={`/sighting-details/${sighting.id}`} className={styles.image}>
         <Image
           src={sighting.image}
@@ -147,6 +165,6 @@ export const SightingCard = ({ sighting }: SightingCardProps) => {
           </Link>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
