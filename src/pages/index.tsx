@@ -89,7 +89,7 @@ const Home: NextPage = () => {
               variants={cardListVariants}
               initial="hidden"
               animate="visible"
-              className="-m-4 flex flex-wrap justify-center"
+              className="flex flex-wrap justify-center"
             >
               {areBirdsLoading
                 ? [1, 2, 3, 4].map((_, i) => <LoadingSkeleton key={i} />)
