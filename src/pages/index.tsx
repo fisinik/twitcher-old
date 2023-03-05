@@ -54,7 +54,7 @@ const Home: NextPage = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.3 }}
-                  className="title-font mb-4 items-center text-3xl font-medium text-gray-900 lg:text-4xl"
+                  className="title-font mb-4 items-center text-3xl font-medium text-teal-400/80 lg:text-4xl"
                 >
                   Discover and learn <br className="inline-block sm:hidden" />
                   about Twitcher
@@ -63,7 +63,7 @@ const Home: NextPage = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.6 }}
-                  className="mx-auto text-base leading-relaxed lg:w-2/3"
+                  className="mx-auto font-sans text-base leading-relaxed text-gray-700/80 lg:w-2/3"
                 >
                   Twitcher is the perfect place for bird lovers to explore and
                   learn about birds from all around the world.
