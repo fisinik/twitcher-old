@@ -53,7 +53,7 @@ const Home: NextPage = () => {
                 <motion.h1
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
                   className="title-font mb-4 items-center text-3xl font-medium text-teal-400/80 lg:text-4xl"
                 >
                   Discover and learn <br className="inline-block sm:hidden" />
@@ -62,7 +62,7 @@ const Home: NextPage = () => {
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.6 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
                   className="mx-auto font-sans text-base leading-relaxed text-gray-700/80 lg:w-2/3"
                 >
                   Twitcher is the perfect place for bird lovers to explore and
@@ -72,7 +72,7 @@ const Home: NextPage = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.9 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
                 className="mx-auto flex w-full flex-col items-end space-y-4 px-8 sm:flex-row sm:space-x-4 sm:space-y-0 sm:px-0 lg:w-2/3"
               >
                 <FormInput
