@@ -4,7 +4,7 @@
 }
 
 /* menu items underline effect on desktop view */
-@media (min-width: 1281px) {
+@media (min-width: 1280px) {
   .menuItem:hover {
     position: relative;
     text-shadow: 0.5px 0 var(--teal-400);
@@ -30,7 +30,7 @@
 }
 
 /* menu items on mobile view */
-@media (max-width: 1280px) {
+@media (max-width: 1279px) {
   .menuItem {
     width: 100%;
     text-align: center;
