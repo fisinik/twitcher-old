@@ -6,51 +6,40 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-type SightingCardProps = {
-  sighting: {
-    id: string;
-    name: string;
-    description: string;
-    image: string;
-    author: string;
-  };
-};
-
-const sightingCardVariants = {
-  hidden: {
-    opacity: 0,
-    y: 20,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-    },
-  },
-};
-
 export const SightingCard = ({ sighting }: SightingCardProps) => {
+  const sightingCardVariants = {
+    hidden: {
+      opacity: 0,
+      y: 20,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+      },
+    },
+  };
   const [isInfoCardOpen, setIsInfoCardOpen] = useState(false);
-  const { data: author } = trpc.user.getSightingAuthor.useQuery({
-    id: sighting.author,
-  });
+  const author = useAuthorDetails(sighting?.author);
   return (
     <motion.div
       variants={sightingCardVariants}
-      className="relative m-2 h-96 w-72 transform overflow-hidden rounded-md bg-white shadow-2xl duration-100 hover:-translate-y-2"
+      className="relative m-2 h-96 w-72 overflow-hidden rounded-md bg-white shadow-2xl"
     >
-      <Link href={`/sighting-details/${sighting.id}`} className={styles.image}>
-        <Image
-          src={sighting.image}
-          alt={sighting.name}
-          fill
-          sizes="(max-width: 768px) 100vw,
+      <Link href={`/sighting-details/${sighting.id}`}>
+        <motion.div className={styles.image} whileHover={{ scale: 1.04 }}>
+          <Image
+            src={sighting.image}
+            alt={sighting.name}
+            fill
+            sizes="(max-width: 768px) 100vw,
           (max-width: 1200px) 50vw,
           33vw"
-          priority
-          className="transition-all duration-300 hover:scale-105 hover:rounded-b-[45px] hover:object-cover hover:object-center hover:opacity-80 hover:shadow-2xl"
-        />
+            priority
+            className="hover:shadow-2xl"
+          />
+        </motion.div>
       </Link>
       <div className={styles.wave} />
       <div className={styles.wave} />
@@ -168,3 +157,20 @@ export const SightingCard = ({ sighting }: SightingCardProps) => {
     </motion.div>
   );
 };
+
+interface SightingCardProps {
+  sighting: {
+    id: string;
+    name: string;
+    description: string;
+    image: string;
+    author: string;
+  };
+}
+
+function useAuthorDetails(authorId: string) {
+  const { data: author } = trpc.user.getSightingAuthor.useQuery({
+    id: authorId,
+  });
+  return author;
+}
