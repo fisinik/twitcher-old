@@ -51,7 +51,7 @@ function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="title-font mb-4 items-center text-3xl font-medium text-teal-400/80 lg:text-4xl"
+            className="title-font mb-4 items-center text-3xl font-medium text-teal-600/80 lg:text-4xl"
           >
             Discover and learn <br className="inline-block sm:hidden" />
             about Twitcher
@@ -80,7 +80,7 @@ function HeroSection() {
 }
 
 function BirdList() {
-  const { birds, isBirdFetchingError } = getAllBirds();
+  const { birds, isBirdFetchingError } = useBirds();
   const cardListVariants = {
     hidden: {
       opacity: 0,
@@ -122,7 +122,7 @@ function BirdList() {
   );
 }
 
-function getAllBirds() {
+function useBirds() {
   const { data: birds, isError: isBirdFetchingError } =
     trpc.bird.getAll.useQuery();
 
