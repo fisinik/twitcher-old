@@ -5,40 +5,29 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-type BirdCardProps = {
-  bird: {
-    id: string;
-    name: string;
-    binomialName: string;
-    description: string;
-    image: string;
-  };
-};
-
-const birdCardVariants = {
-  hidden: {
-    opacity: 0,
-    y: 20,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-    },
-  },
-};
-
 export const BirdCard = ({ bird }: BirdCardProps) => {
+  const birdCardVariants = {
+    hidden: {
+      opacity: 0,
+      y: 20,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+      },
+    },
+  };
   const [isInfoCardOpen, setIsInfoCardOpen] = useState(false);
 
   return (
     <motion.div
       variants={birdCardVariants}
-      className="relative m-2 h-96 w-72 transform overflow-hidden rounded-md bg-white shadow-2xl duration-100 hover:-translate-y-2"
+      className="relative m-2 h-96 w-72 transform overflow-hidden rounded-md bg-white shadow-2xl"
     >
       <Link href={`/bird-details/${bird.id}`}>
-        <div className={styles.image}>
+        <motion.div className={styles.image} whileHover={{ scale: 1.05 }}>
           <Image
             src={bird.image}
             alt={bird.name}
@@ -47,9 +36,9 @@ export const BirdCard = ({ bird }: BirdCardProps) => {
           (max-width: 1200px) 50vw,
           33vw"
             priority
-            className="rounded-b-[45px] transition-all duration-300 hover:scale-105 hover:object-cover hover:object-center hover:opacity-80 hover:shadow-2xl"
+            className="rounded-b-[45px] hover:shadow-2xl"
           />
-        </div>
+        </motion.div>
       </Link>
       <div className={styles.wave} />
       <div className={styles.wave} />
@@ -95,3 +84,13 @@ export const BirdCard = ({ bird }: BirdCardProps) => {
     </motion.div>
   );
 };
+
+interface BirdCardProps {
+  bird: {
+    id: string;
+    name: string;
+    binomialName: string;
+    description: string;
+    image: string;
+  };
+}
