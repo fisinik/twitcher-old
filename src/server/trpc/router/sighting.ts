@@ -164,4 +164,17 @@ export const sightingRouter = router({
         },
       });
     }),
+    getSightingCommentCount: publicProcedure
+    .input(
+      z.object({
+        sightingId: z.string(),
+      })
+    )
+    .query(({ ctx, input }) => {
+      return ctx.prisma.sightingComment.count({
+        where: {
+          sightingId: input.sightingId,
+        },
+      });
+    }),
 });
