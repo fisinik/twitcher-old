@@ -22,6 +22,7 @@ export const SightingCard = ({ sighting }: SightingCardProps) => {
   };
   const [isInfoCardOpen, setIsInfoCardOpen] = useState(false);
   const author = useAuthorDetails(sighting?.author);
+  const likeCount = useSightingLikeCount(sighting?.id);
   return (
     <motion.div
       variants={sightingCardVariants}
@@ -108,7 +109,7 @@ export const SightingCard = ({ sighting }: SightingCardProps) => {
               <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
               <circle cx="12" cy="12" r="3"></circle>
             </svg>
-            1.2K
+            {likeCount}
           </span>
           <span className="inline-flex items-center text-sm leading-none text-gray-700">
             <svg
@@ -173,4 +174,11 @@ function useAuthorDetails(authorId: string) {
     id: authorId,
   });
   return author;
+}
+
+function useSightingLikeCount(sightingId: string) {
+  const { data: likeCount } = trpc.sighting.getSightingLikeCount.useQuery({
+    sightingId: sightingId,
+  });
+  return likeCount;
 }
