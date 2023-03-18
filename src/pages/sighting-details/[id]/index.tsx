@@ -48,9 +48,14 @@ const SightingDetails: NextPage = () => {
     },
   });
 
-  const { data: userLikes } = trpc.sighting.getUserLikes.useQuery({
-    author: user?.id as string,
-  });
+  const { data: userLikes } = trpc.sighting.getUserLikes.useQuery(
+    {
+      author: user?.id as string,
+    },
+    {
+      enabled: user?.id !== undefined,
+    }
+  );
   const isLiked = userLikes?.find((like) => like.sightingId === id)
     ? true
     : false;
