@@ -41,7 +41,7 @@ function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="title-font mb-4 items-center text-3xl font-medium text-teal-400/80 lg:text-4xl"
+            className="title-font mb-4 items-center text-3xl font-medium text-teal-400 lg:text-4xl"
           >
             Check out <br className="inline-block sm:hidden" />
             Bird Sightings
@@ -50,7 +50,7 @@ function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="mx-auto font-sans text-base leading-relaxed text-gray-700/80 lg:w-2/3"
+            className="mx-auto font-sans text-base leading-relaxed text-teal-600 lg:w-2/3"
           >
             Twitcher is the perfect place for bird lovers to explore sightings
             of their favorite birds and communicate with other enthusiasts.
