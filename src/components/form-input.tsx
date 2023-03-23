@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 export default function FormInput({
   label,
   type,
@@ -20,7 +22,7 @@ export default function FormInput({
   return (
     <div className="relative my-[5px] w-full">
       {type !== "textarea" ? (
-        <input
+        <motion.input
           type={type}
           name={name}
           id={`floating_${name}`}
@@ -28,19 +30,37 @@ export default function FormInput({
           onChange={onChange}
           onFocus={onFocus}
           onBlur={onBlur}
-          className={`h-[50px] rounded-[3px] border-[1px] ${
+          whileHover={{ scale: 1.1 }}
+          transition={{
+            type: "spring",
+            stiffness: 200,
+            damping: 20,
+          }}
+          whileFocus={{
+            scale: 1.1,
+          }}
+          className={`pointer-events-auto h-[50px] rounded-[3px] border-[1px] ${
             error ? "border-red-500" : "text-gray-800"
           } peer
-          w-full bg-gradient-to-r from-teal-50 px-2.5 pb-2.5 pt-5 caret-teal-400 shadow-lg hover:to-teal-100 hover:shadow-xl focus:border-teal-400 focus:outline-none`}
+          w-full px-2.5 pb-2.5 pt-5 caret-teal-400 shadow-lg hover:to-teal-100 hover:shadow-xl focus:border-teal-400 focus:outline-none`}
           placeholder=" "
         />
       ) : (
-        <textarea
+        <motion.textarea
           name={name}
           id={`floating_${name}`}
+          whileHover={{ scale: 1.05 }}
+          transition={{
+            type: "spring",
+            stiffness: 200,
+            damping: 20,
+          }}
+          whileFocus={{
+            scale: 1.05,
+          }}
           className={`h-[150px] rounded-[3px] border ${
             error ? "border-red-500" : "text-gray-800"
-          } peer w-full bg-gradient-to-r from-teal-50 to-teal-50 px-2.5 pb-2.5 pt-5
+          } peer w-full px-2.5 pb-2.5 pt-5
             caret-teal-400 shadow-lg hover:to-teal-100 hover:shadow-xl focus:border-teal-400 focus:outline-none`}
           placeholder=" "
           style={{ resize: `none` }}
