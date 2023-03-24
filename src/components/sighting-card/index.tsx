@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { trpc } from "../../utils/trpc";
 import styles from "./index.module.css";
-import { Info } from "./infoIcon";
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { InfoIcon } from "../svg";
 
 export const SightingCard = ({ sighting }: SightingCardProps) => {
   const sightingCardVariants = {
@@ -137,7 +137,7 @@ export const SightingCard = ({ sighting }: SightingCardProps) => {
         <div
           className={`${styles.icon} absolute right-[75px] top-[85px] w-10 opacity-100`}
         >
-          <Info />
+          <InfoIcon />
         </div>
         <div className={`${styles.contents} flex flex-col`}>
           <h1 className="border-b-[1px] border-teal-700 pb-1 text-center text-xl font-medium text-gray-800">

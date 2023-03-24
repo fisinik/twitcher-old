@@ -1,9 +1,9 @@
 import Link from "next/link";
 import styles from "./index.module.css";
-import { Info } from "./infoIcon";
 import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { InfoIcon } from "../svg";
 
 export const BirdCard = ({ bird }: BirdCardProps) => {
   const birdCardVariants = {
@@ -62,7 +62,7 @@ export const BirdCard = ({ bird }: BirdCardProps) => {
         <div
           className={`${styles.icon} absolute right-[75px] top-[85px] w-10 opacity-100`}
         >
-          <Info />
+          <InfoIcon />
         </div>
         <div className={`${styles.contents} flex flex-col`}>
           <h1 className="border-b-[1px] border-teal-700 pb-1 text-center text-2xl font-light text-gray-800">
