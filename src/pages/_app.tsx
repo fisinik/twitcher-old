@@ -4,7 +4,7 @@ import { SessionProvider } from "next-auth/react";
 import type { Session } from "next-auth";
 import type { AppType } from "next/app";
 import { trpc } from "../utils/trpc";
-import { Montserrat, Ubuntu } from "@next/font/google";
+import { Montserrat, Ubuntu } from "next/font/google";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
